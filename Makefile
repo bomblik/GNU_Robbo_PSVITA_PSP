@@ -1,0 +1,146 @@
+# Comment/uncomment these to choose an installation destination
+# Generic system wide installation
+#PACKAGE_DATA_DIR?=/usr/local/share/$(TARGET)
+#BINDIR?=/usr/local/bin
+#DOCDIR?=/usr/local/share/$(TARGET)
+
+
+
+#caanoo stuff
+#GPH_SDK=/home/c/caanoo/toolchain/GPH_SDK
+
+#CC=/home/c/caanoo/toolchain/GPH_SDK/tools/gcc-4.2.4-glibc-2.7-eabi/bin/arm-gph-linux-gnueabi-gcc
+
+
+
+
+
+# GNU Debian system wide installation
+#PACKAGE_DATA_DIR?=/usr/share/games/$(TARGET)
+#BINDIR?=/usr/games
+#DOCDIR?=/usr/share/games/$(TARGET)
+
+# Local installation within your home folder
+#PACKAGE_DATA_DIR?=$(HOME)/Games/$(TARGET)
+#BINDIR?=$(HOME)/Games/$(TARGET)
+#DOCDIR?=$(HOME)/Games/$(TARGET)
+
+# Run from current folder i.e. no installation (default)
+PACKAGE_DATA_DIR?=./data
+BINDIR?=.
+DOCDIR?=.
+
+# Comment out the line below if you want to disable music support
+MUSIC=-DHAVE_MUSIC
+# Comment out the line below if you want to disable the designer
+DESIGNER=-DHAVE_DESIGNER
+#Comment this if you do not want the lightning effects enabled
+LIGHTNING=-DLIGHTNINGENABLED=\"yes\"
+#uncomment following if you want smooth scroll feature
+SMOOTH_SCRL=-D_SMOOTH_SCRL_=\"yes\"
+
+
+# Choose ONE of these and comment out the other
+#FONT_USE_PIXMAP=-DUSE_PIXMAP_FONT
+FONT_USE_SDL_TTF=-lSDL_ttf
+
+# You won't need to alter these
+TARGET=$(shell cat TARGET)
+SOURCES=$(wildcard *.c)
+OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
+VERSION=$(shell cat VERSION)
+
+# These should be ok for most
+SDL_CONFIG?=sdl-config
+#CFLAGS?=-O3 -pipe
+
+#for caanoo compilation
+#CFLAGS=-O3 -pipe -Wall -fomit-frame-pointer -I$(GPH_SDK)/DGE/include -I$(GPH_SDK)/include \
+#-DPLATFORM_CAANOO -DVERSION=\"$(VERSION)\" -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)/\" \
+#$(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER) $(SMOOTH_SCRL)
+
+
+
+CFLAGS+=-d -Wall  `$(SDL_CONFIG) --cflags` -DPLATFORM_PC -DVERSION=\"$(VERSION)\" $(SMOOTH_SCRL) $(LIGHTNING)\
+	-DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+LDFLAGS=
+# Use these instead for debugging and/or profiling (mainly intended for GNU Robbo developers)
+#CFLAGS?=-O0 -pipe -g -pg
+#CFLAGS+=-Wall `$(SDL_CONFIG) --cflags` -DPLATFORM_PC -DVERSION=\"$(VERSION)\" \
+#	-DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+#LDFLAGS=-pg
+LINK=$(CC)
+LIBS=`$(SDL_CONFIG) --libs` -lm -lSDL_image -lSDL_mixer $(FONT_USE_SDL_TTF)
+
+#for caanoo compilation
+#LIBS=-L$(GPH_SDK)/DGE/lib/target -L$(GPH_SDK)/lib/target -lSDL_image -lSDL_mixer $(FONT_USE_SDL_TTF)
+
+
+
+
+# You won't need to alter anything below
+all: $(SOURCES) $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(LINK) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all clean install
+
+clean:
+	rm -f *.o
+
+install:
+	@if [ "$(PACKAGE_DATA_DIR)" = ./data ] ; then \
+		echo "Installing into the current folder is not allowed."; \
+		exit 2; \
+	fi			
+	mkdir -p $(PACKAGE_DATA_DIR)/levels
+	mkdir -p $(PACKAGE_DATA_DIR)/sounds/default
+	mkdir -p $(PACKAGE_DATA_DIR)/sounds/free
+	mkdir -p $(PACKAGE_DATA_DIR)/sounds/oily
+	mkdir -p $(PACKAGE_DATA_DIR)/sounds/skins
+	mkdir -p $(PACKAGE_DATA_DIR)/rob
+	mkdir -p $(PACKAGE_DATA_DIR)/skins/original
+	mkdir -p $(PACKAGE_DATA_DIR)/skins/tronic
+	mkdir -p $(PACKAGE_DATA_DIR)/skins/oily
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/cz_CZ
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/de_DE
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/en_GB
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/id_ID
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/pl_PL
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/ru_RU
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/sk_SK
+	mkdir -p $(PACKAGE_DATA_DIR)/locales/sv_SE
+	mkdir -p $(BINDIR)
+	mkdir -p $(DOCDIR)
+	cp data/levels/* $(PACKAGE_DATA_DIR)/levels/
+	cp data/sounds/default/* $(PACKAGE_DATA_DIR)/sounds/default/
+	cp data/sounds/free/* $(PACKAGE_DATA_DIR)/sounds/free/
+	cp data/sounds/oily/* $(PACKAGE_DATA_DIR)/sounds/oily/
+	cp data/sounds/skins/* $(PACKAGE_DATA_DIR)/sounds/skins/
+	cp data/rob/*.bmp $(PACKAGE_DATA_DIR)/rob/
+	cp data/skins/original/*.bmp data/skins/original/*.png data/skins/original/skinrc $(PACKAGE_DATA_DIR)/skins/original/
+	cp data/skins/tronic/*.bmp data/skins/tronic/*.png data/skins/tronic/skinrc $(PACKAGE_DATA_DIR)/skins/tronic/
+	cp data/skins/oily/*.bmp data/skins/oily/*.png data/skins/oily/skinrc $(PACKAGE_DATA_DIR)/skins/oily/
+	@if [ -n "$(FONT_USE_SDL_TTF)" ] ; then \
+		cp data/skins/original/robbo.ttf $(PACKAGE_DATA_DIR)/skins/original/; \
+		cp data/skins/tronic/robbo.ttf $(PACKAGE_DATA_DIR)/skins/tronic/; \
+		cp data/skins/oily/robbo.ttf $(PACKAGE_DATA_DIR)/skins/oily/; \
+	fi
+	cp data/locales/cz_CZ/* $(PACKAGE_DATA_DIR)/locales/cz_CZ/
+	cp data/locales/de_DE/* $(PACKAGE_DATA_DIR)/locales/de_DE/
+	cp data/locales/en_GB/* $(PACKAGE_DATA_DIR)/locales/en_GB/
+	cp data/locales/id_ID/* $(PACKAGE_DATA_DIR)/locales/id_ID/
+	cp data/locales/pl_PL/* $(PACKAGE_DATA_DIR)/locales/pl_PL/
+	cp data/locales/ru_RU/* $(PACKAGE_DATA_DIR)/locales/ru_RU/
+	cp data/locales/sk_SK/* $(PACKAGE_DATA_DIR)/locales/sk_SK/
+	cp data/locales/sv_SE/* $(PACKAGE_DATA_DIR)/locales/sv_SE/
+	cp $(TARGET) $(BINDIR)/
+	cp ChangeLog NEWS COPYING README LICENSE-sound $(DOCDIR)/
+	@if [ -n "$(FONT_USE_SDL_TTF)" ] ; then \
+		cp LICENSE-ttf $(DOCDIR)/; \
+	fi
+	

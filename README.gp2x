@@ -1,0 +1,16 @@
+Game help and default keys for this device are explained in-game.
+
+Save Frequency < { On Exit | On Change } >
+==========================================
+
+In Options you can choose to save the rcfile gnurobborc whenever
+important settings are changed. You may experience a slight delay
+whilst the data is being saved and synced (depending on platform,
+backup media type, CPU underclocking etc.) but if you are running GNU
+Robbo on a battery powered or generally unstable device then you won't
+lose your level progress or your modified settings.
+
+
+Following is the desktop Linux README which you may find interesting.
+-----------------------------------------------------------------------
+

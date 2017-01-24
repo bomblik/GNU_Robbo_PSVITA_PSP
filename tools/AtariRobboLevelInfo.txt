@@ -1,0 +1,23 @@
+Level Info for Atari Robbo Games
+================================
+
+RobboVI is the game that GNU Robbo is based on.
+There are 4 levels that have not been included: 53, 54, 55 and 56.
+
+RobboIII has 9 levels that are more about explosions than strategy.
+
+RobboIV has 10 levels that are more about explosions than strategy.
+
+RobboVII has 15  levels that are more about explosions than strategy.
+
+RobboVIII has 32 levels comparable with GNU Robbo.
+
+RobboIX has 31 levels comparable with GNU Robbo.
+
+RobboX has 32 levels comparable with GNU Robbo.
+
+Robbo653924 has 32 levels comparable with GNU Robbo.
+
+All start at offset 0x50a3.
+
+RobboXI has 32 levels similar to GNU Robbo.

@@ -1,0 +1,12 @@
+# This is intended to build a debian package under the scratchbox sdk.
+# http://wiki.maemo.org/Documentation/Maemo_5_Developer_Guide/Development_Environment/Maemo_SDK
+# gives more information. To build manually, copy fremantle to this
+# directory and run make. Something like:
+# cp fremantle/Makefile .
+# make
+# (optionally) make install
+all: 
+	cp -pr fremantle/debian .
+	cp fremantle/Makefile ./Makefile.fremantle2
+	dpkg-buildpackage -rfakeroot
+	rm -rf debian Makefile.fremantle2

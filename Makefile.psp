@@ -1,0 +1,40 @@
+PACKAGE_DATA_DIR=./data
+BINDIR=.
+DOCDIR=.
+
+# Choose ONE of these and comment the other
+#FONT_USE_PIXMAP=-DUSE_PIXMAP_FONT
+FONT_USE_SDL_TTF=-lSDL_ttf
+
+# Comment out the line below if you want to disable music support
+MUSIC=-DHAVE_MUSIC
+# Comment out the line below if you want to disable the designer
+#DESIGNER=-DHAVE_DESIGNER
+
+SOURCES=$(wildcard *.c)
+OBJS=$(patsubst %.c, %.o, $(SOURCES))
+VERSION=$(shell cat VERSION)
+
+TARGET=$(shell cat TARGET)
+EXTRA_TARGETS=EBOOT.PBP
+PSP_EBOOT_TITLE=GNU Robbo $(VERSION)
+PSP_EBOOT_ICON=icon32.png
+PSP_LARGE_MEMORY=1
+PSP_FW_VERSION=390
+BUILD_PRX=1
+
+CFLAGS = -O2 -G0 -Wall -DPLATFORM_PSP -DVERSION=\"$(VERSION)\" -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS = $(CFLAGS)
+
+LIBDIR =
+LIBS = $(FONT_USE_SDL_TTF) -lfreetype -lSDL_mixer -lvorbisidec -lSDL_image -lpng -ljpeg -lz 
+LDFLAGS =
+
+PSPSDK=$(shell psp-config --pspsdk-path)
+PSPBIN = $(PSPSDK)/../bin
+CFLAGS += $(shell $(PSPBIN)/sdl-config --cflags) 
+CXXFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)
+LIBS += $(shell $(PSPBIN)/sdl-config --libs)
+
+include $(PSPSDK)/lib/build.mak

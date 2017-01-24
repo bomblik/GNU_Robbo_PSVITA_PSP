@@ -1,0 +1,50 @@
+Files within data/sounds/free
+=============================
+
+Sounds created by neurocyp using Atari BASIC and released under the
+same licence as GNU Robbo: the GNU GPL (see COPYING).
+
+
+Files within data/sounds/default and data/sounds/oily
+=====================================================
+
+Sounds sourced from the Free Sound Project http://www.freesound.org.
+Sounds are released under a Creative Commons Sampling Plus 1.0 license
+http://creativecommons.org/licenses/sampling+/1.0/ which requires that
+the authors be attributed for their work; so here they are :-
+
+Author          Original Filename                      GNU Robbo Filename
+-------------------------------------------------------------------------
+aust paul       30935__aust_paul__possiblelazer.wav    shoot.ogg
+  The above file's tempo was changed.
+Brotherprovisional 47357__Brotherprovisional__Sine_Chopped.aiff end.ogg
+Corsica_S       footsteps_dress_shoes_01.aif           walk.ogg
+  The above file was cut and the tempo was changed.
+FreqMan         25845__FreqMan__concrete_blocks_moving1.wav box.ogg
+  The above file was cut and the tempo was changed.
+HardPCM         31867__HardPCM__Chip030.wav            teleport.ogg
+HardPCM         32955__HardPCM__Chip055.wav            ammo.ogg
+HardPCM         34240__HardPCM__Chip126.wav            capsule.ogg
+HardPCM         33220__HardPCM__Chip080.wav            end_default.ogg
+HardPCM         32954__HardPCM__Chip054.wav            gun_default.ogg
+  The above file was modified, cut and the tempo was changed.
+HardPCM         33108__HardPCM__Chip064.wav            key.ogg
+  The above file was modified.
+HardPCM         31853__HardPCM__Chip013.wav            screw.ogg
+HerbertBoland   31962__HerbertBoland__WalkingHome.wav  walk_default.ogg
+  The above file was cut and the tempo was changed.
+inferno         18397__inferno__smalllas.wav           bird.ogg
+marcuslee       42108__marcuslee__Laser_Wrath_6.wav    gun.ogg
+NoiseCollector  unknown                                magnet.ogg
+nthompson       47252__nthompson__rocketexpl_boom.wav  bomb.ogg
+pagancow        15419__pagancow__dorm_door_opening.wav door_default.ogg
+  The above file was modified.
+RHumphries      988__RHumphries__RBH_Household_bathroom_door.wav door.ogg
+  The above file was cut and the tempo was changed.
+starpause       3045__starpause__k9dhhNoiseCym.wav     kill.ogg
+  The above file was modified, cut and the tempo was changed.
+THE bizniss     39456__THE_bizniss__laser_2.wav        shoot_default.ogg
+  The above file's tempo was changed.
+
+All of the files were modified with Audacity, most of them were cut,
+all of them had their volumes changed and they were all ogg encoded.

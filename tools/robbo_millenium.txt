@@ -1,0 +1,30 @@
+
+Here is what you have to do to use Robbo millenium levels in Gnu Robbo
+
+1. buy original Robbo Millenium (I suppose the levels are copyrighted)
+2. compile lvdump_millenium.c (gcc lvdump_millenium.c -o lvdump_millenium)
+3. use Wine (if you run Linux) to install Robbo Millenium
+4. localise Caves.dta and Caves2.dta files, where you had install Robbo
+5. use something like that to convert levels:
+    for x in `seq 1 60` ; do lvdump_millenium -l $x -a "avalon" -o 0 -f Caves.dta ; done >millenium1.dat
+    for x in `seq 1 76` ; do lvdump_millenium -l $x -a "avalon" -o 0 -f Caves2.dta ; done >millenium2.dat
+6. modify the dat files - add headers like:
+    [name]
+    Millenium1
+    [last_level]
+    60
+and
+    [name]
+    Millenium2
+    [last_level]
+    76
+7. copy these to your levels location of your gnurobbo installation
+8. enjoy:)
+
+There are 4 new objects. First of all, there are vertical magnets (2 objects),
+then there is "stop" sign - it blocks magnets, guns, but does nothing more, it
+disappears, when robbo steps on it.
+The other is "radioactive field" sign - blocks magnets, guns, and kills roobo, when 
+it steps on it.
+
+

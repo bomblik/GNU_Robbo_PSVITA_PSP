@@ -1,0 +1,67 @@
+# Notes About This Port
+# =====================
+# Since GNU Robbo now has moved on from requiring only libSDL, my port
+# for the Sharp Zaurus isn't going to happen unless I remove the
+# dependencies on libSDL_image, libpng, libjpeg and the libraries
+# necessary for ogg playback. These libraries and accompanying devel
+# packages either cannot be or are very difficult to find now for these
+# aging devices, and from previous experience I've found that libSDL
+# plus libSDL_mixer can both be easily located which gives uers the
+# best chance of being able to experience this game.
+# 
+# Since now this port can be considered a hack there are some things
+# that I've had to do and some decisions I've made :-
+#
+# * Added some PLATFORM_ZAURUS specific code which I've commited to SVN.
+# * I'm not including the Oily skin (it uses alpha) within the package.
+# * Redesigned the designer k_icons (uses alpha) for the Tronic skin
+#   and converted to bmp which I will commit to SVN as the default
+#   Tronic k_icon*.png set (no alpha).
+# * Only included the Tronic skin since everything I do to the Tronic
+#   skin I'd have to do to the Original skin and it would also help to
+#   offset the extra data from converting the oggs to wavs.
+# * I've reconverted the Tronic icons*.pngs back to bmps which I won't
+#   be committing to SVN (no point, anyone can do this themselves).
+# * Converted the oggs to wavs (I used "oggdec *" under Linux) which I
+#   won't be committing to SVN.
+# 
+
+# You won't need to alter these for the Sharp ROM
+TARGET=$(shell cat TARGET)
+SOURCES=$(wildcard *.c)
+OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
+VERSION=$(shell cat VERSION)
+export PREFIX=/opt/QtPalmtop
+
+# Comment out the line below if you want to disable music support
+#MUSIC=-DHAVE_MUSIC
+# Comment out the line below if you want to disable the designer
+DESIGNER=-DHAVE_DESIGNER
+
+# This uses the default cross compiler directory of /opt/Embedix and the default QPE directory of /opt/Qtopia
+DEVPREFIX=/opt/Qtopia/sharp
+SDL_CONFIG=$(DEVPREFIX)/bin/sdl-config
+CC=/opt/Embedix/tools/bin/arm-linux-gcc
+CFLAGS=-O3 -pipe -Wall -fomit-frame-pointer \
+	-I$(DEVPREFIX)/include `$(SDL_CONFIG) --prefix=$(DEVPREFIX) --cflags` -DNO_DEBUG -DQWS \
+	-DPLATFORM_ZAURUS -DVERSION=\"$(VERSION)\" \
+	-DPACKAGE_DATA_DIR=\"$(PREFIX)/share/$(TARGET)\" -DUSE_PIXMAP_FONT $(MUSIC) $(DESIGNER)
+LINK=$(CC)
+LDFLAGS=-L$(DEVPREFIX)/lib
+LIBS=`$(SDL_CONFIG) --prefix=$(DEVPREFIX) --libs` -lSDL_mixer 
+
+# You won't need to alter anything below
+all: $(SOURCES) $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(LINK) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+	zaurus/build-$(TARGET)
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: all clean
+
+clean:
+	rm -f *.o
+

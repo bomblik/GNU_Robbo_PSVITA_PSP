@@ -1,0 +1,107 @@
+#!/bin/sh
+
+# This creates a binary tarball for the GP2X.
+# NOTE: This is run when executing 'make -f Makefile.gp2x' or
+# 'make -f Makefile.open2x'. It also expects PACKAGE_DATA_DIR and
+# TOOLCHAIN to have been exported.
+
+if test -a VERSION ; then
+	VERSION="$(cat VERSION)"
+	if test -a TARGET ; then
+		TARGET="$(cat TARGET)"
+		if [ -n "$PACKAGE_DATA_DIR" ] ; then
+			if [ -n "$TOOLCHAIN" ] ; then
+#-------------------------------------------------------------
+				echo "Building GP2X binary tarball..."
+				
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/levels
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/default
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/free
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/oily
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/skins
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/rob
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/original
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/tronic
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/oily
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/cz_CZ
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/de_DE
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/en_GB
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/id_ID
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/pl_PL
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/ru_RU
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/sk_SK
+				mkdir -p ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/sv_SE
+				
+				if [ "$TOOLCHAIN" = "open2x" ] ; then
+					oggdec data/sounds/default/*.ogg
+					oggdec data/sounds/free/*.ogg
+					oggdec data/sounds/oily/*.ogg
+					sed -i.orig -e 's/.ogg/.wav/' data/sounds/skins/default.dat
+					sed -i.orig -e 's/.ogg/.wav/' data/sounds/skins/free.dat
+					sed -i.orig -e 's/.ogg/.wav/' data/sounds/skins/oily.dat
+				fi
+
+				cp data/levels/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/levels/
+				if [ "$TOOLCHAIN" = "open2x" ] ; then
+					cp data/sounds/default/*.wav ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/default/
+					cp data/sounds/free/*.wav ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/free/
+					cp data/sounds/oily/*.wav ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/oily/
+				else
+					cp data/sounds/default/*.ogg ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/default/
+					cp data/sounds/free/*.ogg ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/free/
+					cp data/sounds/oily/*.ogg ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/oily/
+				fi
+				cp data/sounds/skins/*.dat ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/sounds/skins/
+				cp data/rob/*.bmp ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/rob/
+				cp data/skins/original/*16.bmp data/skins/original/*16.png data/skins/original/skinrc ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/original/
+				cp data/skins/tronic/*16.bmp data/skins/tronic/*16.png data/skins/tronic/skinrc ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/tronic/
+				cp data/skins/oily/*16.bmp data/skins/oily/*16.png data/skins/oily/skinrc ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/oily/
+				if [ -n "$FONT_USE_SDL_TTF" ] ; then
+					cp data/skins/original/robbo.ttf ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/original/
+					cp data/skins/tronic/robbo.ttf ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/tronic/
+					cp data/skins/oily/robbo.ttf ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/skins/oily/
+				fi
+				cp data/locales/cz_CZ/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/cz_CZ/
+				cp data/locales/de_DE/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/de_DE/
+				cp data/locales/en_GB/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/en_GB/
+				cp data/locales/id_ID/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/id_ID/
+				cp data/locales/pl_PL/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/pl_PL/
+				cp data/locales/ru_RU/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/ru_RU/
+				cp data/locales/sk_SK/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/sk_SK/
+				cp data/locales/sv_SE/* ${TARGET}_${VERSION}_${TOOLCHAIN}/${PACKAGE_DATA_DIR}/locales/sv_SE/
+
+				cp icon32.png ${TARGET}_${VERSION}_${TOOLCHAIN}/${TARGET}.png
+				cp ${TARGET} gp2x/${TARGET}.gpe ${TARGET}_${VERSION}_${TOOLCHAIN}/
+				cat README.gp2x README > ${TARGET}_${VERSION}_${TOOLCHAIN}/readme.txt
+				cp ChangeLog NEWS COPYING LICENSE-sound ${TARGET}_${VERSION}_${TOOLCHAIN}/
+				if [ -n "$FONT_USE_SDL_TTF" ] ; then
+					cp LICENSE-ttf ${TARGET}_${VERSION}_${TOOLCHAIN}/
+				fi
+				
+				tar czvf ${TARGET}_${VERSION}_${TOOLCHAIN}.tar.gz ${TARGET}_${VERSION}_${TOOLCHAIN}
+				
+				rm -rf ${TARGET}_${VERSION}_${TOOLCHAIN}
+				
+				if [ "$TOOLCHAIN" = "open2x" ] ; then
+					rm data/sounds/default/*.wav
+					rm data/sounds/free/*.wav
+					rm data/sounds/oily/*.wav
+					mv -f data/sounds/skins/default.dat.orig data/sounds/skins/default.dat
+					mv -f data/sounds/skins/free.dat.orig data/sounds/skins/free.dat
+					mv -f data/sounds/skins/oily.dat.orig data/sounds/skins/oily.dat
+				fi
+
+				echo "All done."
+#-------------------------------------------------------------
+			else
+				echo "ERROR: Variable \"TOOLCHAIN\" has not been set/exported."
+			fi
+		else
+			echo "ERROR: Variable \"PACKAGE_DATA_DIR\" has not been set/exported."
+		fi
+	else
+		echo "ERROR: File \"TARGET\" not found. This is a text file with the project name inside it."
+	fi
+else
+	echo "ERROR: File \"VERSION\" not found. This is a text file with the version number inside it."
+fi

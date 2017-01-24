@@ -1,0 +1,50 @@
+Level formats
+-------------
+
+GNU Robbo format  | RobboVI format
+------------------------------------
+ . - empty field	0x20' '
+ R - Robbo      	0x2A *
+ O - Grey Wall		0xA0
+ o - Green wall		0xA0
+ - - Black wall		0x13
+ Q - Red wall		0xA0 0x5C \ (bright)
+ T - Screw			0x24 $
+ ' - Bullet			0x21 !
+ # - Box			0x23 #
+ % - Key			0x3D =
+ b - Bomb			0x40 @
+ D - Door			0x7C | 0x12
+ ? - Questionmark	0x3F ?
+ @ - Bear			0x41 A (anti-clockwise) 0x44 D 0x42 B (clockwise) 0x43 C (anti-clockwise)
+ ^ - Bird			0x49 I (left to right white eyes) 0x4A J (left to right) 0x4B K (up and down) 0x4D M (red eyes) 0xCB (up and down) 0x4C L (up and down) 0xC9 (left and right) 0x4E (left to right firing)
+ ! - Capsule		0x14
+ + - Live			0x2B +
+     Little boom!	
+ H - Ground			0x25 %
+ * - Black bear		0x45 E (clockwise) 0x46 F (clockwise) 0x48 H (clockwise) 0x47 G
+ V - Butterfly		0x26 &
+     Laser			0x5B [ (solid.down) 0x5D ] (solid.left)
+ & - Teleport		0x30 0 to 9
+     Big boom!		
+ } - Gun			0x1E (left) 0x1F (right) 0x1D (down) 0x27 ' (solid.down) 0x5E ^ (solid.up) 0x3C < (solid.left) 0x3E > (solid.right) 0x2D - (random rotatable) 0x2C , (randomrotatable) 0x01 (blaster.right) 0x04 (blaster.left) 0x17 (blaster.down) 0x1C (up) 0x0E (moveable.left&right.firing) 0x0D (moveable.left&right) 0x18 (blaster.up) 0x2E (random rotatable)
+ M - Magnet			0x29 ) (left) 0x28 ( (right)
+ ~ - Push box		0x06
+ = - Barrier		0x0F (0x11 and 0x05 are entry/exit points of barrier and are not visible)
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

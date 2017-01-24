@@ -1,0 +1,45 @@
+# You won't need to alter these
+TARGET=$(shell cat TARGET)
+SOURCES=$(wildcard *.c)
+OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
+VERSION=$(shell cat VERSION)
+export PACKAGE_DATA_DIR=./data
+export TOOLCHAIN=open2x
+
+# Comment out the line below if you want to disable music support
+#MUSIC=-DHAVE_MUSIC
+# Comment out the line below if you want to disable the designer
+DESIGNER=-DHAVE_DESIGNER
+
+# Choose ONE of these and comment the other
+export FONT_USE_PIXMAP=-DUSE_PIXMAP_FONT
+#export FONT_USE_SDL_TTF=-lSDL_ttf -lfreetype
+
+# This uses the Open2x toolchain-new installed into the default folder
+# /opt/open2x
+DEVPREFIX=/opt/open2x/gcc-4.1.1-glibc-2.3.6
+SDL_CONFIG=$(DEVPREFIX)/bin/sdl-config
+CC=$(DEVPREFIX)/arm-open2x-linux/bin/arm-open2x-linux-gcc
+CFLAGS=-O3 -pipe -Wall -fomit-frame-pointer \
+	-I$(DEVPREFIX)/include `$(SDL_CONFIG) --cflags` \
+	-DPLATFORM_GP2X -DTOOLCHAIN_OPEN2X -DVERSION=\"$(VERSION)\" \
+	-DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+LINK=$(CC)
+LDFLAGS=-L$(DEVPREFIX)/lib 
+LIBS=$(FONT_USE_SDL_TTF) -lSDL_image -lpng -ljpeg -lz -lSDL_mixer -lsmpeg -lstdc++ `$(SDL_CONFIG) --static-libs` 
+
+# You won't need to alter anything below
+all: $(SOURCES) $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(LINK) -static $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+	gp2x/build-$(TARGET)
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+	
+.PHONY: all clean
+
+clean:
+	rm -f *.o
+

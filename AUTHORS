@@ -1,0 +1,71 @@
+
+Janusz Pelc
+===========
+
+The original ATARI XE/XL Robbo game that GNU Robbo is based upon.
+
+
+Arkadiusz Lipiec <arkadiusz.lipiec (at) gmail.com> 2002-2010
+============================================================
+
+The game was originally created in 1989 by Janusz Pelc and LK Avalon
+and was working on ATARI XE/XL. I missed this game so much so I decided
+to start my own project which would be a reimplementation of the game.
+It was not so easy because all I had was only a working game. I had no
+code or algorithms.
+
+Another reason was that I'd like to write a program based on the SDL
+library. This was my first project that uses SDL.
+
+Additionally I am also responsible for the Win32 port.
+
+
+Thunor <thunorsif (at) hotmail.com> 2007-2010
+=============================================
+
+In 2005 I ported this to the Sharp Zaurus and converted some more
+levels. Arkadiusz Lipiec included me as a developer on the GNU Robbo
+Sourceforge project and now I've incorporated my additional work
+into this game. I also decided to continue developing the project to a
+more complete level with the inclusion of in-game help, options, new
+graphics, a demo mode and reconfigurable controls.
+
+Additionally I am also responsible for the Sharp Zaurus and GP2X ports.
+
+
+neurocyp <neurocyp (at) gmail.com> 2009-2010
+============================================
+
+neurocyp joined the GNU Robbo team in October 2009 and greatly enhanced
+it by implementing sound and music, converting many more level packs
+and fine tuning compatibility with the original Atari Robbo game.
+
+
+Bombel <bomblik (at) gmail.com> 2009-2010
+=========================================
+
+Bombel joined the GNU Robbo team in October 2009 and introduced code to
+enable a Sony PlayStation PSP port.
+
+
+Patch Contributors
+==================
+We've received many patches for GNU Robbo and this is the place where
+we acknowledge the individuals involved and say thanks for contributing.
+
+PatchID  Summary                    Submitter
+------------------------------------------------------------------------
+2659264  German translation         Chris Zeiler <rabyte (at) gmail.dot.com>
+         Slovak translation         Viliam Búr
+2677615  Swedish translation        Niklas 'Nille' Åkerström
+         Russian translation        Alexander Voikov <alex-voikov (at) yandex.ru>
+         Indonesian translation     Auriza Akbar <auriza.akbar (at) gmail.com>
+         Czech translation          Radek Pavle <niobe (at) volny.cz>
+2938808  Original:36 wrong magnet   Pff <mpanf (at) users.sourceforge.net>
+3006727  More portable Makefile     Dmitry Marakasov <amdmi3 (at) users.sourceforge.net>
+3051878  Maemo 5 Fremantle Support  Paul Houghton <huffton (at) googlemail.com>
+3052629  German text update         Nobody/Anonymous
+3096404  Maemo 5 Fremantle update   Paul Houghton <huffton (at) googlemail.com>
+
+
+

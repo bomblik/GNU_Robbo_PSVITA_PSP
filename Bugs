@@ -1,0 +1,200 @@
+x = fixed
+p = partially
+- = not fixed
+
+>>> neurocyp asked if we could use the SF bug tracker from now onwards,
+	so please use that now to record and manage bugs <<<
+
+[-] - The Original skin's robbo.ttf doesn't show 'ñ'. It's not a
+	problem at the moment because there's no Spanish translation yet.
+[X] - The designer appears to be remembering settings from previous
+	editing sessions. Try this :-
+	* Play the Designer level set and press F9.
+	* Single-click the Save icon and it says "overwrite on save".
+	* Single-click the New icon and it says "clear & insert on save".
+	* Single-click again the New icon so that the level is cleared.
+	* Double-click the "X" icon top-right and play another level/pack.
+	* Press F9 to activate the designer.
+	* Single-click the Save icon and it says "Click again to insert on
+	save" i.e. the previous settings of the designer are not being
+	cleared so that "insert" becomes the only option. Notice too that I
+	haven't actually saved anything to file. * neurocyp: well, now,
+	when you leave designer all settings like lastclick,insert on save
+	are cleared. so this should be ok now
+[x] - Not initialising game_timer_id to NULL and not checking that it
+	is not NULL before removing it which causes a segfault when
+	quitting early due to a file not being found.
+[x] - I've just noticed that the window manager icon has disappeared.
+	I think it's about time the wm_icon was set as per SDL docs i.e.
+	before setting the video mode. This code really hasn't been touched
+	since the start of the project.
+[x] - k_icons is being ignored if not found i.e. like bgrnd.
+[x] - bgrnd (if one was loaded) isn't being freed on exit.
+[x] - k_icons isn't being initialised to NULL before load_selected_skin
+	attempts to free non-NULL surfaces, nor is it being freed on exit.
+[x] - Robbo2009 levels 10, 15, 16 and 17 crash the game on my GP2X.
+[x] - Robbo98:12 crashes my GP2X. Maybe this will help with the above.
+	UPDATE: I have noticed all the above levels have one thing in
+	common: >> they all have force fields bordering the map edges <<
+	UPDATE: 20091218-1208 I've found the bug and I'm going to attempt
+	to fix it now. FIXED: It was a combination of missing boundary
+	checks and referencing invalid array elements before checking that
+	the index was valid. I tested east and west barriers and they work.
+[x] - Original:6 and RobboVII:2 demos are now out of sync due to
+	teleport modifications. They will require fixing at some point.
+[x] - Sound: The Volume +/- message box is limiting the volume to 100
+	and needs to go up to 128.
+	[x] - It really should be updating Sfx Volume when Options is shown
+		and HAVE_MUSIC hasn't been defined.
+[x] - Is sound supposed to be enabled by default? "int sound" isn't
+	being initialised anywhere so I don't know. There should be a
+	"sound = 0;" or "sound = 1;" in game.c:195 to accompany volume.
+[x] - Delete or rename ~/.gnurobborc so that the game starts from the
+	beginning. Now go to Options and enable sound. You can hear the
+	sfx but it says "0". Exit Options and play the game. You will hear
+	loud sfx. Go back to Options and Sfx Volume is 0. If you press the
+	+/- keys to see the volume messagebox you can see the real value of
+	the volume (see following bug for possible answer).
+[x] - The volume controls +/- do not synchronise with int sfx_vol.
+	Setting sfx_vol updates volume, but setting volume does not update
+	sfx_vol. Also in Options, using +/- to modify the volume does not
+	update the Sfx Volume on-screen.
+[x] - rcfile.save_frequency isn't being initialised at the start.
+[x] - Disable Options: Primary Click for the GP2X.
+[x] - Having the rcfile called .gnurobborc on the GP2X is not such a
+		good idea because if Linux users look at their SD card they
+		won't know it's there and they'll delete it. From now on look
+		for gnurobborc first, then .gnurobborc and save gnurobborc.
+[x] - Ok as Zaurus Confirm isn't much use to non SL-5500 users, so set
+		Confirm by default to be something common like SPACE.
+[x] - Fix incredibly fast Help Screen with redraw_everything always on
+[x] - Fixed the problem with the colour cycling cycling too fast when
+		holding down controls.
+[x] - In Atari Robbo the bomb blows-up empty space but not in GNU Robbo.
+[x] - Solid Lasers: In Atari Robbo the solid lasers are not blowable but
+		in GNU Robbo they are. In Atari Robbo the solid lasers are left
+		live when the gun is destroyed (same as GNU Robbo) which is a
+		bit nonsensical. FIXED: Added an rcfile overrideable
+		game_mechanic.sensible_solid_lasers; defaults to true.
+[x] - Bears again ;) Fix bears of the same type going around one another
+		forever. I think a courtesy protocol should make one of them
+		wait for another DELAY_BEAR. The other bear can check his moved
+		property and say hey, he's letting me pass, let's go. FIXED:
+		It was easier to fix than expected, simply checking for empty
+		space with another bear of the same type in the opposite corner.
+[x] - Teleporting short distances should not feel sluggish.
+[x] - Since forcing speed to 1 and using a new game_cycle_limit to
+		control the game's speed, the Robbo-drawn-in-the-borders-when-
+		teleporting-large-distances bug has reappeared. I think that
+		the reason this wasn't happening was because the screen always
+		finished scrolling before Robbo was being drawn in his new
+		location. Obviously nothing should be being drawn off-board so
+		this bug is likely to be in show_game_area(). In fact I have
+		experienced this problem before when playing with deeper boards
+		and this is to do with x/y_rest and mapoffsetx/y. Even so, care
+		should be taken to limit the area sprites are being drawn to.
+		Looking at show_game_area() now, I'd say it's due for a rewrite.
+		I am going to study mapoffsetx/y now which is actually screen
+		offsets and it looks as though part of the logic is in
+		set_mapoffset() with the remainder in show_game_area().
+		FIXED: I rewrote show_game_area() and implemented a new
+		viewport.
+[x] - There's a bug whereby Robbo is not killed if under a bird that is
+		at the very top of the board i.e. where the wall mostly is. The
+		level is RobboVII-008 at the top. FIXED: is_robbo_killed() bugs.
+[x] - Bears are being weird, going around in loops one space apart. I
+		think it's time I looked at the bear logic as they could benefit
+		from not chasing their tails.
+		BEAR: Follow left-hand rule maze traversal with start direction
+		dictating their rotation around the board.
+		BLACK_B: Follow right-hand rule maze traversal with start
+		direction dictating their rotation around the board.
+		In the original Robbo, both bears do nothing more than rotate
+		whilst looking for exits when blocked. Original-054 (52 in
+		Robbo VI) is a good place to study BEARs at the start, and also
+		Original-014 (13) and Original-021 (20).
+[x] - The bear can end up in a tight circle if blocked (same as
+		original). It would be nice though to make it more intelligent.
+		I created MECHANIC_SENSIBLE_BEARS which would be nice in Options.
+[x] - The black bear can end up in a tight circle if blocked (same as
+		original). It would be nice though to make it more intelligent.
+		I created MECHANIC_SENSIBLE_BEARS which would be nice in Options.
+[x] - Since tweaking the delays, RobboIX-003 is just too difficult and
+		in fact impossible using the joystick on the GP2X. It needs one
+		or two bombs at the bottom to be moved left to slow it slightly.
+		The other beat-the-bomb levels are Original-020 and RobboVIII-016
+		and they are fine.
+[x] - Questionmarks seem to be empty for some reason. FIXED: It's
+		because id_questionmark must be retained in create_object()
+		and I was forcing a clear_field(). I have documented the code.
+[x] - The rightward retreating solid laser is slightly faster than it
+		should be. FIXED: The reason for this was that the solidlaser
+		logic was modifying other objects and these objects also needed
+		to be marked as processed. I watched the cycle_limit when these
+		objects were being processed (DELAY_LASER is 4) and the
+		cycle_limit started being dumped in units less than 4 which
+		caused timing problems.
+[x] - The right and leftward barriers are both slightly faster than
+		they should be. FIXED: Same reason as above.
+[x] - After fixing some timing issues in update_game() I found that
+		the Help animations were slower than they should have been so
+		I've fixed those.
+[x] - The bears moving around the blocks on Original-044 go out of
+		sync a little on the opposite side that they started from,
+		eventually returning to sync again. The code responsible for
+		this is in update_game() near the top (search for DELAY_BEAR).
+		The same thing can be seen with the birds on Original-009. I
+		have noticed that all the board locations (objects) are processed
+		in an x/y loop (cols are processed, then rows), but what happens
+		when an object is moved from one board location to another that
+		has not been processed yet? Does it get processed again? This 
+		would cause objects moving down and/or right to have their
+		.moved delays decremented again at the top of the x/y loop!
+		This needs debugging. FIXED: Indeed there was a bug so I have
+		introduced another object property called processed that marks
+		objects that have been processed already during that cycle. I
+		also fixed another bug at the top of update_game() that
+		decremented rotating objects twice. Just found another bug in
+		there that caused objects to be slower than Robbo. It appears as
+		though decrementing their delays but not processing them on zero
+		within the same cycle caused Robbo to be a little faster than
+		birds etc. that have the same delay values.
+[x] - Delay parameters are not perfect :-
+		GNU Robbo is attracted to magnets too slowly: DELAY_ROBBO works.
+[x] - Delay parameters are not perfect :-
+		Linked bombs blow slower in GNU Robbo: DELAY_BIGBOOM + 1 works.
+		UPDATE: Since fixing some bugs in update_game() I have found
+		that this should now be DELAY_BIGBOOM + 2 :)
+[x] - I've noticed SDL_FreeSurface isn't called on any of the loaded
+		images or created ones for that matter.
+[x] - Syntax of level are volunerable for any inconsequences and errors.
+		load_level_data() (previously load_from_file()) has been made
+		more robust. Also level_init() has been tidied-up and I've made
+		sure that the program can cope with failed level loads.
+[x] - Force fields that kill Robbo don't go boom themselves. Thunor:
+		same solution as blaster below.
+[x] - Blasters that kill Robbo don't go boom themselves. Thunor: I
+		simply added some returns after kill_robbo() to prevent objects
+		from being created after everything has been blown-up.
+[x] - On level 28 - RobboVIII occassionally killing a bear behaves like
+		shooting a questionmark. I haven't seen this for some time now.
+		I've seen this again. I think it might be a side-effect of
+		changing level packs. I saw it whilst flipping between the end
+		screen levels. I now think it might be related to what I was
+		doing creating the end screen levels i.e. running incomplete or
+		not-so-valid levels. This problem is currently happening on
+		RobboVII level 8 with the ground underneath the blaster. It seems
+		to occur only when navigating to the level via F5/F6 but I can't
+		see why at the moment. FIXED! clear_field() was only zeroising
+		id_questionmark if type=QUESTIONMARK. The problem is that an
+		object of type QUESTIONMARK becomes an object of type BIG_BOOM
+		when it is first destroyed and so update_game() checks for
+		id_questionmark > 0 to identify a previous QUESTIONMARK object.
+[x] - The restart_timeout needs clearing if Robbo dies and the user
+		immediately changes the level or pack. I also cancelled existing
+		fades when viewing options or help whilst playing.
+[x] - Opening a door doesn't update the scoreline
+[x] - If Robbo dies whilst firing then the firing continues
+[x] - Continously shooting uses more bullets than fired
+[x] - Fixed missing [author]s from original.dat levels 13 to 16
+

@@ -1,0 +1,103 @@
+Requirements
+============
+
+libSDL
+libSDL_mixer
+libSDL_image
+and accompanying devel packages.
+
+Optional: libSDL_ttf and accompanying devel package.
+
+
+Desktop Linux
+=============
+
+Firstly make sure that you have the necessary devel libraries installed
+(plus the libSDL_ttf-devel library if you are not using the pixmap font
+option) and then type "make".
+
+If you are editing the source code and modify any header files then
+type "make clean && make".
+
+The build system has been set-up so that by default GNU Robbo runs from
+the installation folder. If you want to install this software then you
+should simply comment the existing PACKAGE_DATA_DIR, BINDIR and DOCDIR
+group towards the top of the Makefile and uncomment the ones that
+interest you. Then type :-
+
+    make clean
+    make
+    (If installing system-wide then login as root now)
+    make install
+
+
+Sharp Zaurus
+============
+
+Type "make -f Makefile.zaurus". This creates an ipk.
+
+
+GP2X
+====
+
+Type "make -f Makefile.gp2x" or "make -f Makefile.open2x".
+This creates a tarball.
+
+
+Sony PlayStation Portable (PSP)
+===============================
+
+Type "make -f Makefile.psp". This creates an EBOOT.PBP.
+
+
+FONT_USE_PIXMAP/FONT_USE_SDL_TTF
+================================
+
+The project renders the text using SDL_ttf by default, but there are
+similar pixmap fonts available that can be enabled by selecting
+FONT_USE_PIXMAP instead of FONT_USE_SDL_TTF in the Makefile.
+
+You may want to use the pixmap fonts if the target platform...
+* uses a lower resolution or has a smaller screen (pixmap is crisper).
+* would benefit from the speed advantage of rendering simple pixmaps.
+* doesn't accept the Bitstream Vera Fonts licence LICENSE-ttf.
+* doesn't have (or can't locate) the SDL_ttf library or devel package.
+
+
+MUSIC
+=====
+
+There is support for music which can be enabled/disabled by
+[un]commenting the line MUSIC=-DHAVE_MUSIC within the Makefile (please
+see the README for more information about configuring music).
+
+
+DESIGNER
+========
+
+There is support for a mouse driven level designer which can be
+enabled/disabled by [un]commenting the line DESIGNER=-DHAVE_DESIGNER
+within the Makefile (please see the README for more information about
+the level designer).
+
+
+Porting to Other Platforms
+==========================
+
+The build system and this project have been designed to make it as easy
+as possible to port to other platforms and devices. The source code has
+official support for Win32, PC (Linux desktop), GPH GP2X, Sharp Zaurus,
+Maemo 5 Fremantle and the Sony PlayStation PSP. Platform dependent code
+is wrapped in PLATFORM_WIN32, PLATFORM_PC, PLATFORM_GP2X,
+PLATFORM_ZAURUS, PLATFORM_FREMANTLE and PLATFORM_PSP compiler
+directives respectively, so initially you'll want to append these #if
+#elif... #endif conditional groups with a suitable directive for your
+platform and either copy and paste the code from one of the others or
+add your own.
+
+This project will run centred in any resolution greater than 240x240
+via the -XRESxYRES command line option, therefore it can be run on
+anything from a portrait orientated mobile/cellular phone to a
+widescreen internet tablet or netbook without having to reengineer the
+graphics rendering code.
+

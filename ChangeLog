@@ -1,0 +1,632 @@
+Please see NEWS for a user readable summary of changes suitable for
+announcements.
+
+2010-11-20 Thunor <thunorsif (at) hotmail.com>
+* Applied patch 3113489: Maemo 5 Slash Issue (Paul Houghton).
+
+2010-11-12 Thunor <thunorsif (at) hotmail.com>
+* 0.66 released (r380)
+* Updated NEWS.
+* Conventionalised the build system a little more.
+
+2010-11-11 Thunor <thunorsif (at) hotmail.com>
+* Fixed a bug I introduced recently whereby getenv was returning
+  NULL on the GP2X and causing a segfault when used with string
+  functions. The return value for getenv is now checked for.
+
+2010-10-27 Thunor <thunorsif (at) hotmail.com>
+* Applied patch 3096404: Maemo 5 Fremantle update (Paul Houghton).
+
+2010-09-03 Thunor <thunorsif (at) hotmail.com>
+* Added support for LANG environment variable if no rcfile is found
+  and LANG isn't empty.
+
+2010-09-01 Thunor <thunorsif (at) hotmail.com>
+* Updated the Swedish object names used within the designer.
+* Removed the "Gun" part from "Fixed|Moveable|Moveable Rotating Gun"
+  as it now also applied to magnets.
+* Moved the door icon in Help as it can limit the translated text.
+
+2010-08-30 Thunor <thunorsif (at) hotmail.com>
+* Reduced the memory usage significantly (25MB PC, 11MB GP2X).
+
+2010-08-27 Thunor <thunorsif (at) hotmail.com>
+* Added a new "Bomb2" graphic to the Tronic skin.
+* Added localisation to the konstruktor.
+* Added controls text for Open2x's "GP2X_JOYSTICK".
+* Changed object BARBED_WIRE to RADIOACTIVE_FIELD.
+
+2010-08-25 Thunor <thunorsif (at) hotmail.com>
+* Applied patch 3052629: German text update (anonymous).
+* Updated fremantle/debian/Makefile for the new sounds.
+* Updated LICENSE-sound to include the new free sounds.
+
+2010-08-24 Thunor <thunorsif (at) hotmail.com>
+* Applied patch 3051878: Maemo 5 Fremantle Support (Paul Houghton).
+
+2010-08-23 Thunor <thunorsif (at) hotmail.com>
+* Applied patch 3006727: More portable Makefile (Dmitry Marakasov).
+* Applied patch 2938808: Original level 36 incorrect magnet (Pff).
+* Seperated "/" from directory macros so that it's now clear if they
+  are included or not.
+
+2010-04-02 Thunor <thunorsif (at) hotmail.com>
+* Since music support now seems to be enabled by default I've gone
+  through the documentation and removed "preliminary/experimental"
+  support. I've also done the same for the designer documentation.
+* Added 3 missing chars to the pixmap fonts for the Czech alphabet.
+
+2010-03-28 Thunor <thunorsif (at) hotmail.com>
+* Added Makefile.open2x.
+* Tidied-up all the makefiles (finally removed the //), added a
+  dedicated CFLAGS/LDFLAGS set for debugging/profiling and added the
+  Czech locale to make install.
+
+2010-02-22 Radek Pavle <niobe (at) volny.cz>
+* Czech translation added
+
+2010-02-05 Bombel <bomblik (at) gmail.com>
+* Fixed PSP problem with case sensitive file names on FAT filesystem
+  (r332)
+
+2010-01-18 Thunor <thunorsif (at) hotmail.com>
+* Made Options page selected item self configuring as before it was
+  being manually set-up which unless maintained causes the wrong item
+  to be selected when options are moved about.
+* Updated the Zaurus package build script for more automation.
+
+2010-01-17 Thunor <thunorsif (at) hotmail.com>
+* Fixed ACTION_PRIMARY_CLICK device on GP2X F100 not being UNDEFINED.
+* Increased MAX_LEVEL_PACKS to 84. Found an unlikely situation whereby
+  installing the game in three locations caused the rcfile to overflow
+  with historical level pack entries (it was 55) which caused
+  read_resource_file() to break once it read the max amount. Now it
+  prints a message to the console recommending the user deletes some
+  entries, stops recording any more entries and continues reading the
+  rest of the rcfile.
+
+2010-01-16 Thunor <thunorsif (at) hotmail.com>
+* Made a 0.65.6 maintenance release (r328) since there were many
+  important fixes in SVN but hardly any new features or content.
+
+2010-01-16 Thunor <thunorsif (at) hotmail.com>
+* In designer.h, a struct was defined called game_area, but there
+  already exists a struct defined and declared as game_area in screen.h
+  which really confuses things -- especially since the real game_area
+  was being used within konstruktor.c too -- so as it was only being
+  used once to declare k_view I renamed it and changed it so that it
+  defines and declares a k_view struct in konstruktor.h. Therefore
+  k_view is no longer game_area, game_area is game_area.
+* Fixed timed-out message boxes not redrawing the designer area.
+* Removed lots of old code marked as redundant.
+* Updated the ROB engine to mirror work I've been doing on ENG. The
+  main change is that the renderer now falls back to the normal
+  property if press or over are undefined. This meant that there was
+  some redundant property setting that I had to remove.
+
+2010-01-15 Thunor <thunorsif (at) hotmail.com>
+* Updated the website and made it a lot more self maintaining and
+  made the colours more web safe. Also added an external URL image.
+* Fixed the designer adding ffffffff invalid colours to levels.
+* Removed ffffffff from a couple of level packs.
+* Stopped the designer from writing empty lines for non-existent
+  optional tag data such as author and level_notes. Also stopped
+  empty level_notes from expanding on consecutive writes.
+* Rewrote level_notes code since it was allocating 1024 chars but
+  limiting by up to 4 rows of up to 160 chars. It now reads > 1024
+  chars regardless of newlines and is always terminated by a newline.
+
+2010-01-06 Thunor <thunorsif (at) hotmail.com>
+* Fixed a bug in the designer that was referencing invalid K_icons
+  array elements using an index of -1.
+* Reinstated ACTION_SCROLL_UP and ACTION_SCROLL_DOWN for use within the
+  designer. Set them both initially to scroll in units of 4 and
+  attached them by default (on the PC) to SDL_BUTTON_WHEELUP/DOWN.
+* Fixed designer bugs that made the scoreline counts go out of sync.
+* Released a Sharp Zaurus port.
+
+2010-01-05 Thunor <thunorsif (at) hotmail.com>
+* Tidied-up the text used within the designer and added missing text.
+* Designer object text is now displayed when adding objects to the map.
+* Updated the level file format info in original.dat although I think
+  now it should really be moved to the README.
+* Fixed the unplayable 017-Robbo97 level.
+* Finished tweaking my 008-Designer level; time to design another :)
+
+2010-01-04 Thunor <thunorsif (at) hotmail.com>
+* Updated get_user_action() in controls.c and modified the code that
+  simulates digital buttons from axes. Also took the opportunity to
+  restore some formatting generally to all the functions in there.
+* Tweaked my 008-Designer level which I'll probably tweak some more.
+* Reordered Options and brought the sound and skin options forward.
+* Changed all 2009 to 2010 in AUTHORS and (C) headers.
+
+2010-01-02 Thunor <thunorsif (at) hotmail.com>
+* Placed the various designer colours into the skinrc files to enable
+  skinning.
+* Added my first proper level to designer.dat level 8 :)
+
+2010-01-01 Thunor <thunorsif (at) hotmail.com>
+* Happy New Year! :D Added a designer icon to the pointer toolbar.
+* Finished the Tronic skinning of the k_icons*.png.
+* Fixed a bug in 001-RobboVII with the additional count being 1 short.
+  It showed up in the designer as a numberless teleport as that was the
+  last item. I checked the other RobboVII levels and they are correct.
+* find_all_dat_files() now looks in LOCAL_DATA_DIR LEVELS_DIR if
+  required for the target platform, which means that the designer will
+  now be able to write to level packs on platforms where there are
+  restrictions on what the user has write access to (Linux at least).
+
+2009-12-30 Thunor <thunorsif (at) hotmail.com>
+* Forced all read unimplemented controls from the rcfile to UNDEFINED.
+* Updated and checked through the control defaults.
+* Added Pointer Controls Pad Type < Viewport/Screen > to Options.
+* Updated Tronic k_icons*.png.
+* Added temporary code within konstruktor.c to allow skinning of
+  colours used within designer (awaiting skinning by neurocyp).
+
+2009-12-29 Thunor <thunorsif (at) hotmail.com>
+* Updated Makefile.zaurus with information about this particular port.
+* Fixed an issue in the designer with SDL_MapRGB not being used which
+  results in 16 bit displays not displaying the expected colour.
+* Went through the controls and visually disabled the ones that are
+  either not valid for the platform or are currently unimplemented
+  rather than leaving gaps or visible controls that have no function.
+* Dealt with all of the parts that I'd marked with "temp temp" that
+  required future attention which has now been applied.
+* Added a platform dependent function to create a default user level
+  pack mylevels.dat "MyLevels" and the necessary directory structure.
+
+2009-12-28 Thunor <thunorsif (at) hotmail.com>
+* Changed some more "Gnu"s.
+* Reinstated my level notes in robbo07.dat level 16.
+* Uncommented read_skin_level_colour_override() in levels.c:75.
+* Now level_packs[].filename includes the full path.
+
+2009-12-26 Thunor <thunorsif (at) hotmail.com>
+* Added PLATFORM_ZAURUS specific code to enable me to build a Sharp
+  Zaurus port without requiring libSDL_image/libpng/libjpeg/libz which
+  are going to be almost impossible now to find for the many different
+  Zaurii (plus the devel packages). See Makefile.zaurus for more info.
+
+2009-12-24 Auriza Akbar <auriza.akbar (at) gmail.com>
+* Added Indonesian translation
+
+2009-12-23 Thunor <thunorsif (at) hotmail.com>
+* 0.65 released (r264)
+
+2009-12-21 Thunor <thunorsif (at) hotmail.com>
+* Some final modifications: changed "Gnu" in places to "GNU".
+* Changed "Experimental" name of designer.dat to "Designer" as it's too
+  long and leaves ">" on the Intro Screen.
+* Edited slightly the level designer section in the README and replaced
+  tabs with 4 spaces.
+* Changed "robbo3CS" name to "Robbo3CS".
+* Renamed robbo03cs.dat to robbo3cs.dat
+* Changed "RobboB" name to "Robbo-B" as it looks like Robbo8.
+* Adjusted demos and tronic/skinrc to deal with modified names.
+
+2009-12-20 Thunor <thunorsif (at) hotmail.com>
+* Went through the project and tidied-up the platform specific #if
+  #elif... #endif blocks to include all currently supported platforms
+  and to combine in most cases PLATFORM_WIN32 and PLATFORM_PC.
+* Tidied-up the Options code and added the HAVE_DESIGNER directive to
+  enable/disable the designer specific code.
+* Updated the docs for the new level designer.
+* Set F9 as the PC default for ACTION_TOGGLE_DESIGNER as requested.
+
+2009-12-19 Thunor <thunorsif (at) hotmail.com>
+* Fixed bugs with k_icons not being initialised to NULL, being ignored
+  if not found and not being freed on exit.
+* Fixed bgrnd not being freed on exit.
+* Created themed wm_icon.bmp for window managers and created a function
+  that loads and sets it before calling SDL_SetVideoMode as recommended
+  by the SDL docs.
+* Fixed a bug whereby game_timer_id wasn't being initialised to NULL
+  and wasn't being checked for not NULL before being removed at the end.
+  This manifested itself as a segfault when quitting early due to a
+  file not being found - unlikely to happen but it's more thorough.
+* Replaced tabs with 4 spaces in README and COMPILING and generally
+  adjusted little things in docs here and there.
+
+2009-12-18 Thunor <thunorsif (at) hotmail.com>
+* Fixed a bug in the barrier code that was rerefencing invalid array
+  elements and not checking first that the index was valid.
+* Added missing capsules to several levels in Robbo97.
+
+2009-12-17 Thunor <thunorsif (at) hotmail.com>
+* Tweaked some new demos I added yesterday.
+* I updated all the Makefiles and removed the "=yes" from directives
+  as it is enough to define a directive to use #ifdef and #ifndef.
+* Robbo97 has 89 levels not 91 so I fixed [last_level].
+
+2009-12-16 Thunor <thunorsif (at) hotmail.com>
+* To keep things fresh I remade all the demos using the new packs.
+* Dropped the version number down to the line underneath the banner
+  for field_size=32. Also, reduced the line to accommodate the version
+  text length for both field_sizes.
+
+2009-12-15 Thunor <thunorsif (at) hotmail.com>
+* Updated pixmap fonts to include Russian alphabet.
+The following issues I talked to neurocyp about several days ago and
+I need them fixing now because I want to create a Zaurus port, so I've
+decided to fix them since it will be easier anyway as I know how the
+program is structured :-
+* I've moved the sound and sfx_vol variable initialisation code to the
+  top of main(). Also I placed the initialisation code for the temp
+  equivalents into the correct place within show_optionsscreen().
+* Tidied-up the reading and setting of sound variables from the rcfile
+  as it wasn't being done correctly. Also '[sfx-vol]' wasn't being read
+  as the code was checking for 8 chars when it's 9 chars long, and it
+  wouldn't have been found anyway as it was actually being saved to the
+  rcfile as '[sfx-volume]' so I've fixed that too.
+* Locales: I've changed txt_Sound '[sound]' to txt_Sound '[txt_Sound]'
+  (since these names are supposed to be representative of the English
+  text that they describe) and txt_Snd_Vol '[sfx-volume]'
+  to txt_Sfx_Volume '[txt_Sfx_Volume]'.
+* If HAVE_MUSIC isn't defined, the Options page is open showing Sfx
+  Volume and the user presses +/- to adjust the volume then temp_sfx_vol
+  is updated and the options screen is refreshed to show the new value.
+* Fixed Original:6 and RobboVII:2 demos because they went out of sync
+  with the recent teleport changes.
+
+2009-12-13 Thunor <thunorsif (at) hotmail.com>
+* Updated Tronic icons16 and 32 for new Millenium objects.
+
+2009-12-12 Thunor <thunorsif (at) hotmail.com>
+* Updated Tronic background images.
+* Set gnurobbo_op_env.systempointer to TRUE for PC and WIN32 only.
+* Removed a "but but" from the README.
+* Updated licences of robbo/lvldump.c and robbo/lvdump_millenium.c to
+  "(C) The GNU Robbo Team".
+
+2009-12-11 Thunor <thunorsif (at) hotmail.com>
+* Added background*.png for the Tronic skin.
+
+2009-12-07 Thunor <thunorsif (at) hotmail.com>
+* 0.64 released
+* Updated the (C) messages at the top of each source file to point
+  the reader to the AUTHORS file, as there are now many more authors.
+* Changed the [txt_intro_credits] in texts to "The GNU Robbo Team".
+* Fixed a bug I've recently seen in clear_screen whereby the right-
+  hand side of the screen wasn't being cleared properly when using
+  wide-screen resolutions.
+
+2009-12-06 Thunor <thunorsif (at) hotmail.com>
+* Added a licence for the project sound effects - LICENSE-sound
+
+2009-11-29 neurocyp <neurocyp (at) gmail.com>
+* Since we allow guns to rotate and shoot solid laser, we needed to fix
+  the fact, that gun could rotate during solid laser (or blaster) shot
+* Blaster no longer blasts teleport, when it is near the gun 
+* Barrier was broken, now fixed
+* Movable guns can shoot solidlaser and blasters, and it should be
+  handled properly
+
+2009-11-21 neurocyp <neurocyp (at) gmail.com>
+* GNU Robbo can support music now - disabled by default
+* Few bugfixes blaster no longer destroys doors nor keys
+* As in the original Robbo, blaster now blows bombs
+* Levels rearranged
+
+2009-11-19 Neurocyp <neurocyp (at) gmail.com>
+* GNU Robbo supports sound effects SDL_mixer needed
+* Changed icon files to png format, this way we have real alpha channel
+* Added some new levelmaps
+* Added "oily" skin to demonstrate new abilities such as sound skin
+* Added "background tile" - located in the icon file under coordinates
+  (1,8) - depends on the tile size
+* Added 4 new objects to support Robbo Millenium maps, the objects are:
+  vertical magnets, stop sign, radioactive field (modified all skins,
+  accordingly)
+* Modified lvdump utility, so if supports original atari levels even
+  better
+* Added modified lvdump, that supports Robbo Millenium data files
+* Added 1 level from Robbo Millenium, so it could show the new options
+
+2009-10-18 Bombel <bomblik (at) gmail.com>
+* GNU Robbo ported to Sony PlayStation Portable (PSP)
+* Part of load_selected_skin() moved to load_TTF_font()
+  (PSP suspend mode)
+* Updated all translations for PSP
+
+2009-10-16 Thunor <thunorsif (at) hotmail.com>
+* Fixed a bug in the main menu looping from the top to the bottom.
+
+2009-09-03
+* 0.63
+* Exclusive Nokia N8x0 (OS2008) package release by Willem-Jan de Hoog
+
+2009-08-06 Alexander Voikov <alex-voikov (at) yandex.ru>
+* Russian translation added
+
+2009-04-30 Thunor <thunorsif (at) hotmail.com>
+* Added pointer controls pad fit to screen boundary type if required
+* Added pointer_controls.pad_type to rcfile but not to Options (yet)
+* Disabled Primary Click on the GP2X as it's not currently required
+
+2009-04-25 Thunor <thunorsif (at) hotmail.com>
+* Created pointer controls toolbar icons
+* Pointer controls can now be considered fully functional
+* Temporarily hidden designer options and menu item
+* Changed default Zaurus ACTION_SELECT to space from OK
+* Changed default Zaurus ACTION_MODIFIER1 to space from OK
+
+2009-04-20 Thunor <thunorsif (at) hotmail.com>
+* Updated the READMEs for the new pointing device support
+
+2009-04-16 Thunor <thunorsif (at) hotmail.com>
+* Added an in-game pointer controls direction and shoot pad
+* Removed Pointer Controls from Options: clicking in-game shows controls
+* Added an in-game pointer controls toolbar for common tasks
+
+2009-04-08 Thunor <thunorsif (at) hotmail.com>
+* Added alpha_press and bgcolour_press properties to ROB_Object
+* Added img_press_surface property to ROB_Object
+* Added drag_granularity property to ROB_Object
+
+2009-04-07 Thunor <thunorsif (at) hotmail.com>
+* All screens are now [re]drawn using bits similar to show_scoreline()
+* Re-engineered show_message_box()
+* Added working pointer hotspots to the Intro Screen
+
+2009-04-06 Thunor <thunorsif (at) hotmail.com>
+* Modified animation in Help to handle constant redraw_everything
+* Added working pointer hotspots to Help
+
+2009-04-05 Thunor <thunorsif (at) hotmail.com>
+* Fixed the colour cycling too fast when holding controls bug
+* Added working pointer hospots to Options
+
+2009-04-03 Thunor <thunorsif (at) hotmail.com>
+* Displaying of options in screen.c has been re-engineered
+
+2009-04-02 Thunor <thunorsif (at) hotmail.com>
+* Options code now executable-ready via hittable rectangles (hotspots)
+
+2009-04-01 Thunor <thunorsif (at) hotmail.com>
+* Pulled most of the options code out of main loop; just a little left
+* Made the option page navigation items selectable
+ 
+2009-03-30 Thunor <thunorsif (at) hotmail.com>
+* Saved VERSION to the rcfile to assist with changes in the future
+* Simplified the management of the 7 pages of options, thankfully :)
+
+2009-03-29 Thunor <thunorsif (at) hotmail.com>
+* Added diagonal actions for the simulated pointer plus two modifiers
+* Reorganised the actions taking care to preserve reading older rcfiles
+* Added System Pointer < { Disabled | Enabled } > to Options
+
+2009-03-28 Thunor <thunorsif (at) hotmail.com>
+* Fixed the end of demo RobboIX:4 because of modified bomb explosion
+* Added ACTION_TOGGLE_DESIGNER
+
+2009-03-27 Thunor <thunorsif (at) hotmail.com>
+* Stopped options pages from clearing lines if the screen was cleared
+* Optimised clear_screen()
+
+2009-03-25 Thunor <thunorsif (at) hotmail.com>
+* Moved one LICENCE-ttf into the root (->DOCDIR) and deleted the other
+* Added data/rob/robsprites.bmp
+* Updated Makefile and _buildipk/tgz to deal with the above changes
+
+2009-03-24 Thunor <thunorsif (at) hotmail.com>
+* Modified _buildipk to create the control file
+* Added ROB_engine.c/h -- The GNU Robbo Rectangular Object Engine :)
+* Updated Makefiles to VERSION=$(shell cat VERSION)
+* Updated Makefiles to TARGET=$(shell cat TARGET)
+* Updated all Makefiles to set and use $(SDL_CONFIG)
+* Slightly adjusted some of the line lengths in the READMEs
+
+2009-03-23 Thunor <thunorsif (at) hotmail.com>
+* Added 13 new text items to locales
+
+2009-03-20 Thunor <thunorsif (at) hotmail.com>
+* Added DEVICE_MOUSE as an allowable input device
+* Added ACTION_SCROLL_UP, ACTION_SCROLL_DOWN and ACTION_PRIMARY_CLICK
+* Added Pointer Control Pad < { Disabled | Enabled | Reposition } > to
+  Options
+* Changed "Save rcfile" to "Save Frequency" because it wasn't correct
+* Added video.xshift and video.yshift so the game area can be shifted
+
+2009-03-18 Thunor <thunorsif (at) hotmail.com>
+* 0.62 released
+* Added Save rcfile < {on exit | on change} > to Options
+* Updated the default Zaurus keys
+* Adjusted the position of the umlaut over the 'a' 1px left
+* Wrapped the last line of the Polish text on Options page 1
+* Unforced GP2X to 320x240 -ts 16
+
+2009-03-17 Thunor <thunorsif (at) hotmail.com>
+* Updated the README with clearer Atari Robbo background
+* EMPTY_FIELDs are now blowable, therefore the bomb blows them up
+* Tweaked RobboIX:003 to cope with the EMPTY_FIELDs blowing-up
+
+2009-03-16 Thunor <thunorsif (at) hotmail.com>
+* Updated the Zaurus Makefile and ipk build script
+* Modified get_user_action() to break when an action is triggered
+* Updated default Zaurus controls in all locales
+* Disabled target platform key repeat as get_user_action() does this
+
+2009-03-14 Thunor <thunorsif (at) hotmail.com>
+* Stopped PC Makefile from installing *ttf if FONT_USE_PIXMAP
+* Stopped PC Makefile from installing into the current folder
+
+2009-03-13 Thunor <thunorsif (at) hotmail.com>
+* Replaced font8x12.bmp with font12x16.bmp
+* Replaced font16x24.bmp with font24x32.bmp
+* All extra characters for supported languages have been drawn
+* Updated PC Makefile for font selection and tested both
+* Updated GP2X Makefile for font selection and tested both
+* Updated Zaurus Makefile and it now builds and works :)
+
+2009-03-11 Thunor <thunorsif (at) hotmail.com>
+* Selecting pixmap fonts now works but needs extra characters drawn
+
+2009-03-11 Thunor <thunorsif (at) hotmail.com>
+* Renamed LICENSE-font to LICENSE-ttf to avoid confusion with pixmaps
+* Added font8x12.bmp and font16x24.bmp to the skins folders
+* Updated Makefile and build scripts for new Swedish translation
+
+2009-03-10 Niklas 'Nille' Åkerström
+* Swedish translation added
+
+2009-03-08 Thunor <thunorsif (at) hotmail.com>
+* Removed buildsrc and backup as they are not for general release
+* Added LICENSE-font to original skin folder
+* GP2X rcfile saves and syncs on new level start and options save
+* Added USE_PIXMAP_FONT Makefile directive, font.c and font.h
+
+2009-03-07 Viliam Búr
+* Slovak translation added
+
+2009-03-03 Chris Zeiler <rabyte_at_gmail.dot.com>
+* German translation added
+
+2009-03-02 Thunor <thunorsif (at) hotmail.com>
+* 0.61 released
+* Added the Tronic sprite BEAR_B
+* Added the Tronic sprite BIRD
+* Added the Tronic sprite BUTTERFLY
+* Set the Tronic skin level colour overrides
+* Resampled the demos across all level packs
+
+2009-02-26 Alus <arkadiusz.lipiec (at) gmail.com>
+* 0.60 test release
+
+2009-02-26 Thunor <thunorsif (at) hotmail.com>
+* 640x480 and 320x240 now supported
+* Fullscreen support via ALT+ENTER and command line
+* Tidied up the code, removed all gcc errors
+* Conventionalised the controls
+* Added support for multiple level packs
+* F5/F6 cycles through the levels of a pack
+* F7/F8 cycles through the packs
+* Added 15 levels from RobboVII
+* Added additional wall graphics
+* Added 32 levels from RobboVIII
+* Added some help screens
+* Added animated banners
+* Removed score and lives as the goal is level advancement
+* 'R' restarts instead of suicide
+* Created an LCD font to display the pack name
+* Abstracted SDL events into actions which fixed some control bugs
+* Added joystick support
+* Added some options screens
+* Made the controls reconfigurable
+* Added a game fade 
+* Added 32 levels from RobboIX
+* Added unique pack end screens
+* Added skin support
+* Created a new original skin: Tronic
+* Implemented a reconfigurable SDL_Timer to control the game speed
+* Fixed the known bugs and newly discovered bugs/issues
+* Fixed some game mechanics to be more similar to the original Robbo
+* Placed the project colours in the skinrc for easy modification
+* Placed some game mechanics in the rcfile for easy modification
+* Added centering of game within any resolution and viewport maximising
+* Massive reorganisation of the project into seperate files
+* Added support for different locales
+* Added a Polish translation
+
+2002-11-15 Alus <alipiec (at) elka.pw.edu.pl>
+* Changed level colour format
+* Added new object - barrier
+2002-11-14 Alus <alipiec (at) elka.pw.edu.pl>
+* Added 7 new levels
+2002-11-13 Alus <alipiec (at) elka.pw.edu.pl>
+* Fixed remaining objects after boom
+* Window title and icon
+2002-11-12 Alus <alipiec (at) elka.pw.edu.pl>
+* File .gnurobborc implementing
+* End screen
+2002-11-08 Lenny <lenny (at) mandrakesoft.com>
+* Changed .spec file
+2002-11-04 Alus <alipiec (at) elka.pw.edu.pl>
+* 0.56 released
+* Changed some colors
+2002-10-23 Alus <alipiec (at) elka.pw.edu.pl>
+* Video displaying is now double buffered
+* Added different level colors
+* Code cleaning
+2002-10-21 Alus <alipiec (at) elka.pw.edu.pl>
+* Better key pressing detecting
+* Background removed
+* Better random number choosing
+2002-10-19 Alus <alipiec (at) elka.pw.edu.pl>
+* Little changed graphics
+* Added level choosing (system of codes)
+* Startscreen menu
+* Some bugfixes
+2002-10-18 Alus <alipiec (at) elka.pw.edu.pl>
+* 0.55 version released
+* Bigger graphics (some people asked me of this)
+* Better time parameters
+* Cosmetics changes in start screen
+2002-10-17 Alus <alipiec (at) elka.pw.edu.pl>
+* New levels
+* Extra life after taken won't appear on the same level
+* Loading from file only for new levels
+* Questionmark's objects don't uncover if blowed
+2002-10-16 Alus <alipiec (at) elka.pw.edu.pl>
+* Bear delay if turning back
+* Many new levels
+* New object - pushing box
+* Bugfix in data loading
+* Blasters don't clear screws and capsule now
+2002-10-15 Alus <alipiec (at) elka.pw.edu.pl>
+* Blink screen if capsule is ready
+* First version of scrolling
+2002-10-14 Alus <alipiec (at) elka.pw.edu.pl>
+* Added new levels
+2002-10-12 Alus <alipiec (at) elka.pw.edu.pl>
+* Removed trick keybindings
+* Testing and added new levels
+* Version 0.52 released
+2002-10-12 Alus <alipiec (at) elka.pw.edu.pl>
+* Removed some structures
+* Background is better displayed
+* Wall, bricks, grass etc. is now treaten like wall
+* Five new levels
+2002-10-11 Alus <alipiec (at) elka.pw.edu.pl>
+* Screws and bullets are counted during level loading
+* Changed teleport behaviour and description in levelfile
+2002-10-10 Alus <alipiec (at) elka.pw.edu.pl>
+* Preparing automatically build and install
+2002-10-09 Alus <alipiec (at) elka.pw.edu.pl>
+* Moving guns
+* Rotated guns
+* Questionmark objects are randomly choosed
+* Fixed butterfly moving (chances for random move)
+2002-10-08 Alus <alipiec (at) elka.pw.edu.pl>
+* Butterflies' behaviour
+* Magnets' behaviour
+* Blaster implementation
+* Shooting birds
+* Fixed solid laser algorithm
+2002-10-03 Alus <alipiec (at) elka.pw.edu.pl>
+* Begining screen with using SDL_ttf
+2002-10-02 Alus <alipiec (at) elka.pw.edu.pl>
+* Solid laser is working !!!
+* SDL_Surface pointers for each object not needed anymore
+* Better delay variables fitting - game does not use 100% of processor :)
+2002-10-02 Cyba <cyba (at) gnome.pl>
+* Move alghoritm for bears
+2002-10-01 Alus <alipiec (at) elka.pw.edu.pl>
+* Merging all little icons into big one
+2002-09-31 Alus
+* Changing bugfix with wrong teleportation
+* Courtine effect
+2002-09-30 Alus <alipiec (at) elka.pw.edu.pl>
+* Created next 2 levels and implemented shooting
+* Simple level changing
+* Questionmarks implementation
+* Teleportation is working now
+* Minor bugfixes
+2002-09-29 Alus <alipiec (at) elka.pw.edu.pl>
+* First level with simple functionality is working!
+* Reading levels from file
+* Board scrolling
+2002-09-27 Alus <alipiec (at) elka.pw.edu.pl>
+* beginning of this project
+

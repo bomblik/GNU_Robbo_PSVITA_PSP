@@ -1,0 +1,8 @@
+[Desktop Entry]
+Comment=GNU Robbo for Zaurus
+Exec=rungnurobbo
+Icon=gnurobbo
+Type=Application
+Name=GNURobbo
+Display=640x480/144dpi,480x640/144dpi
+GenericName=

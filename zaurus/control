@@ -1,0 +1,10 @@
+Package: gnurobbo
+Priority: optional
+Section: Games
+Version: 0.66
+Architecture: arm
+Maintainer: Thunor <thunorsif@hotmail.com>
+Depends: libSDL libSDL_mixer
+License: GPL
+Description: GNU Robbo for the Sharp Zaurus
+Source: http://gnurobbo.sourceforge.net/

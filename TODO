@@ -1,0 +1,357 @@
+x = done
+p = partially
+- = not done
+
+>>> What was remaining within this TODO (which were mostly bugs and new
+	features anyway) have been migrated to the SF bug or feature
+	requests trackers https://sourceforge.net/tracker/?group_id=64186
+	since the project has now grown up :) I think we should leave this
+	as the Translation TODO and use it only to manage ticking the
+	little boxes unless somebody has a better way to achieve this <<<
+
+[ ] - New translations needed for :-
+	[ ] - txt_Pointer_Controls_Pad_Type	[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru [x]id
+	[ ] - txt_Viewport					[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru [x]id
+	[ ] - txt_Screen					[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru [x]id
+	[ ] - txt_Save_Frequency			[x]en [x]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_On_Exit					[x]en [x]de [x]pl [ ]sk [ ]sv [x]ru
+	[ ] - txt_On_Change					[x]en [x]de [x]pl [ ]sk [ ]sv [x]ru
+	[ ] - txt_Primary_Click				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_Ptr						[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_System_Pointer			[x]en [ ]de [x]pl [ ]sk [ ]sv [x]ru
+	[ ] - txt_Disabled					[x]en [ ]de [x]pl [ ]sk [ ]sv [x]ru
+	[ ] - txt_Enabled					[x]en [ ]de [x]pl [ ]sk [ ]sv [x]ru
+	[ ] - txt_ptr_BtnLeft				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_ptr_BtnMiddle				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_ptr_BtnRight				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_ptr_WheelUp				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_ptr_WheelDown				[x]en [ ]de [x]pl [ ]sk [ ]sv [ ]ru
+	[ ] - txt_Toggle_Designer			[x]en [ ]de [x]pl [ ]sk [ ]sv [x]ru
+
+-----------------------------------------------------------------------
+
+[-] - Thunor: Moved to SF feature requests:
+	I think that starting screen has to be updated to more modern.
+	Maybe some nice-looking image, and reimplementation of text area
+	(more information has to be put there).
+[-] - Thunor: Moved to SF feature requests:
+	Also option navigation windows are not certain for some users
+	(esp. music and skins options are hard to find first time...)
+[-] - Thunor: Moved to SF feature requests:
+	gamepad handling with SDL (not joystick but similar ;)
+[p] - Creator for manually edit and testing the planets by user i.e. a
+	level editor. Thunor: This would be  very useful for creating
+	GPL level packs that are not converted from the Atari Robbo game.
+	Although the engine, the new Tronic skin (and the forthcoming
+	sounds) are truly original content, the levels are not and this
+	may disuade certain distros and users from playing GNU Robbo.
+[p] - Sound and sound effects. 
+	Most of the sound effects present.
+	User can enable/disable sound in the options menu.
+	User can also set sound effects volume in the options menu.
+	It is possible to set the sound efx volume using +/- keys.
+	Sound skins are also supported, now an user can set up
+	soundskin variable in the skin definition (check oily skin).
+	I think it would be nice to have also custom music playing,
+	but it takes time to find some apropriate and free content.
+[-] - Thunor: Moved to SF bug tracker:
+	The exploding bomb animation is slightly different in the Atari
+	Robbo. There seems to be some randomness to the actual animation
+	frames being used. This would be possible with GNU Robbo as
+	when a BIG_BOOM object is created it has an array of animation
+	frames that could be modified so that explosions look more
+	chaotic. It does look as though the exploding bomb animation is
+	different to the exploding targets around a bomb.
+	The atari800 is useful for creating screenshots by pressing F10
+	rapidly.
+[-] - Thunor: Moved to SF feature requests:
+	Research making objects transit tiles in smaller units. Robbo
+	moves in 4 frames, so at 32x32 that would be 4x8px units and
+	would look much smoother. Actually everything that moves uses
+	a delay of 4. This could be in Options with the sensible flags.
+	This was a suggestion from a user via a forum. Whether it's worth
+	implementing is another matter.
+[p] - Once 0.64 is out, all the level packs will need playtesting as
+	only some of the new ones have been tested, and some of the object
+	behaviours have been changed which could affect the playability
+	and completability of some levels.
+	[x] Robbo97 levels are not completable as there's no capsule :-
+		[x] 7  - I think original expected capsule from question mark.
+		[x] 22 - Missing from dump (several capsules behind doors).
+		[x] 24 - Was missing from dump.
+		[x] 25 - Was missing from dump.
+		[x] 48 - I think original expected capsule from question mark.
+		[x] 67 - Was missing from dump.
+	[-] Thunor: Moved to SF bug tracker:
+		Robbo97:17 is impossible from the very start.
+[-] - Thunor: Moved to SF feature requests:
+	I think it would be a good idea in the future to grade the level
+	packs because there is no way to know which packs are suitable for
+	children, adults or Mensa members. It would be nice to show this
+	on-screen when selecting level packs, but at the moment there is no
+	more room for this. This of course will change if and when the main
+	screen is redesigned. Maybe add a tag to level packs "[difficulty]".
+[x] - Note that the designer won't be using ROB and so the following text
+	items are now redundant (I've disabled the controls as they may be
+	used later so it's best not to remove the text yet) :-
+	[-] - txt_Scroll_Up				[x]en [-]de [x]pl [-]sk [-]sv [-]ru
+	[-] - txt_Scroll_Down			[x]en [-]de [-]pl [-]sk [-]sv [-]ru
+	[-] - txt_Simulated_Pointer		[x]en [-]de [x]pl [-]sk [-]sv [x]ru
+	[-] - txt_Move_Up_Right			[x]en [-]de [x]pl [-]sk [-]sv [x]ru
+	[-] - txt_Move_Up_Left			[x]en [-]de [x]pl [-]sk [-]sv [x]ru
+	[-] - txt_Move_Down_Right		[x]en [-]de [x]pl [-]sk [-]sv [x]ru
+	[-] - txt_Move_Down_Left		[x]en [-]de [x]pl [-]sk [-]sv [x]ru
+[x] - Now that the designer won't be using ROB, these controls are
+	redundant and can be removed from Options (they would have been
+	used to control a simulated pointer for handhelds that don't have
+	a touchscreen) :-
+	[-] Move Up-Right   (disabled, maybe used later, maybe not)
+	[-] Move Down-Right (disabled, maybe used later, maybe not)
+	[-] Move Down-Left  (disabled, maybe used later, maybe not)
+	[-] Move Up-Left    (disabled, maybe used later, maybe not)
+	[-] Move Up-Right   (disabled, maybe used later, maybe not)
+[x] - Designer :-
+	Note that the designer won't be using ROB and so the simulated
+	pointer is redundant.
+	[x] ROB.
+	[x] Add "Toggle Designer" to Options.
+	[x] Add Designer to Intro Screen menu.
+	[x] Implement a simulated pointer for devices with no pointer.
+		Add to Options :-
+		[-] Simulated Pointer < { Disabled | Enabled } >
+		[-] Speed Low < 4px >
+		[-] Speed High < 8px >
+		[-] Speed Threshold < 6 >
+[x] - Pixmap font: Add Russian characters.
+[x] - Tronic skin:
+	[x] Theme new Millenium icons.
+	[x] Add small background images.
+	[x] Update level_colour_overrides for new levels to vary somewhat.
+[x] - Loose ends that need tidying-up before next 0.64 release :-
+	[x] - Why isn't sound enabled by default?
+	[x] - Why is volume 0 by default? Maybe 30 is a good starting vol.
+	[-] - I noticed that data/sounds/skins/sounds_oily.dat would be
+		better named oily.dat to match the graphical skin name. It's
+		not show-stopping, but the "sounds_" prefix is unnecessary.
+	[x] - Check that Restore Default Controls is doing what it should.
+	[x] - Review Options entries and texts.
+	[x] - Tronic: Override (generally) level colours in skinrc as many
+		are too bright and some too dark.
+	[x] - In Options: Sound < 0/1 > is not very human readable. As to
+		distinguish it with possible Music options, I recommend
+		Sound FX < Disabled/Enabled >   [txt_Sound_FX]
+		Sound FX Volume < 0-128 >       [txt_Sound_FX_Volume]
+	[x] - Oily: [about] info really needs updating because it's more
+		now than just a Gimped copy of Original. This sells it better:-
+		"A skin based on the original Atari Robbo and Robbo
+		Millenium graphics applied with an oily effect.
+		Includes level background image and Oily soundskin."
+	[x] - Cannot load PNG image ./data//skins/*/background.png is
+		annoying because it's optional. Only display warning for files
+		that aren't background.png.
+	[x] - Home and End don't work on the sound options.
+	[x] - Fix Sound and volume "<" ">" colour change bugs.
+	[x] - Need to identify the licences of the sounds (Free Sound
+		Project says Creative Commons but which one) and place a copy
+		of the licence into the root folder. UPDATE: All the sounds
+		are http://creativecommons.org/licenses/sampling+/1.0/ but
+		the authors may need to be attributed for their work. Which
+		authors? Ask neurocyp. GOT INFO: Will update in morning.
+	[X] - 017-R653924: unplayable - rmoved this level
+	[X] - 002-ROBBOXI: robbo11.dat level 2 not found.- fixed lvldump, and converted the levels
+	[x] - ROBBO V: 87, 88 missing, or maybe incorrect level count.
+	[x] - ROBBO II: 89, 90 missing, or maybe incorrect level count.
+	[x] - 039-ROBBO III: "F**K YOU" written within the map although it
+		can't be viewed unless maximising the screen and viewport.
+	[x] - Sound: segfaults (for me) when repeatedly opening and closing
+		audio. My version of SDL_mixer-1.2.7 may not be so happy about
+		(or may not even support) repeatedly calling Mix_OpenAudio and
+		Mix_CloseAudio as these are initialising and unloading the
+		library and resources. In the SDL_mixer example sdlwav-2.c
+		Mix_OpenAudio is executed at the start and Mix_CloseAudio is
+		executed at the end, just before SDL is shutdown. As I have
+		60+ open source games on my computer and I haven't knowingly
+		experienced this issue before, I am assuming that this is how
+		other developers are using SDL_mixer. The trouble is GNU Robbo
+		runs (or did run) on devices with older SDL_mixer libraries and
+		so sound is going to have to be reorganised to make it more
+		compatible. For the record :-
+		neurocyp is using SDL_mixer 1.2.8
+		I (Thunor) am using 1.2.7
+		Willem-Jan's Nokia N8x0 (OS2008) Port is using 1.2.6
+		My GPH GP2X F100 uses 1.2.6
+		My Sharp Zaurus uses 1.2.5
+	[x] - RobboI: [colour]s are missing and there's no default set.
+	[x] - RobboIV: [colour]s are missing and there's no default set.
+	[x] - RobboXI: [colour]s are missing and there's no default set.
+	[x] - RobboXII: [colour]s are missing and there's no default set.
+	[x] - RobboXIII: [colour]s are missing and there's no default set.
+	[x] - Robbo2001: [colour]s are missing for levels 3, 4 and 6 and
+		there's no default set.
+	[x] - ROBBO 98: unrecognised object " " "1" "5"
+	[x] - Demos: robboviii.dat is no more; find levels and fix: I found
+		the levels in robbo03.dat.
+	[x] - Level filenames: would be sensible not to use UPPERCASE
+		because of the SD cards on Linux devices.
+	[x] - Level pack [name]s: should remove spaces, invalid characters
+		and standardise.
+	[x] - Level pack [name]s: is "Robb0 IV" valid?
+	[x] - ROBBO IV: unrecognised object "2" "c" " "
+	[x] - ROBBO 2009: unrecognised object
+	[x] - ROBBO 97: unrecognised object "2" "c" " " "f" "1" "5"
+	[x] - ROBBO B: level count is wrong
+	[x] - ROBBO I: unrecognised object "2" "c" " "
+	[x] - ROBBO II: unrecognised object "2" "c" " " "f" "1" "5"
+	[x] - 033-ROBBO III: Attributed to J&P Wardzynscy but was in fact
+		made by myself (Thunor) and was one of my level pack bonus
+		endings. I think it was the end of robboviii.dat which is
+		why it's now in robbo03.dat.
+	[x] - ROBBO V: unrecognised object "2" "c" " "
+	[x] - ROBBO VIII: Maybe in authorline "adn" should be "and"?
+	[x] - Unrecognised object "+" is a life which GNU Robbo no longer
+		supports and so I have stopped these error messages.
+[x] - Port the levels from RobboX and RobboXI.
+[x] - Pointer Controls :-
+	[x] Design some themed toolbar icons.
+	[x] End Screen: only the toolbar exit button is visible.
+	[x] There needs to be a restart button.
+		There does not appear to be a method of detecting the
+		availability of a mouse/stylus within SDL. Therefore these
+		options will be available on all devices :-
+	[x] Primary Click		Ptr:BtnLeft			<-->
+	[x] System Pointer < { Disabled | Enabled } >
+	[x] The pointer controls will only be available in game_on mode
+		as elsewhere there will be hittable rectangles (hotspots) to
+		operate the menus. The system pointer only will be available
+		and visible if selected in Options.
+	[x] There should be a parent toolbar with icons for many required
+		tasks.
+[x] - Options really needs an overhaul now as it's become unwieldly.
+[x] - Create a BMP font and remove libSDL_ttf for the Sharp Zaurus. The
+	problem with this is that it will make internationalisation a
+	bit more complicated as a UTF-8 bitmap could be extensive. I'll
+	seperate the text first and then worry about this later. The
+	benefits are more control over graphical positioning, and wider
+	compatibility.
+[x] - Research saving rcfile on new level start for GP2X. GP2X can run
+	out of battery power, therefore progress doesn't get saved.
+[x] - Dump vm usage to the console, not to a file in the binary folder.
+[x] - Update Sourceforge website HTML, or use new wiki instead.
+[x] - 0.60 release. Win32 package and rc1 source releases.
+[x] - Better graphics (and bigger)... (bigger as for now completed)
+	Tronic skin: [x] BEAR_B, [x] BIRD and [x] BUTTERFLY to finish.
+[x] - Set some level colour overrides for the Tronic skin if needed for
+	all the level packs so far.
+[x] - Re-do the demos across all packs. Modify demo_mode() to store and
+	select packs based on their name, not their level_packs index.
+[x] - Fix set_video_mode() to not fall back to the same mode, or to
+	attempt to set hi-res on the GP2X. FIXED: It's designed to try
+	the defaults so leave that. Have forced GP2X to 320x240 -ts 16.
+[-] - XML format for levels (and maybe separate files would be better)
+	Thunor: The levels are seperated into packs. Their format is
+	fine in my opinion and easier to understand than looking at raw
+	XML. I think this would be a lot of work for little reward.
+[-] - Better scrolling (now is SCROLL_RATE jumping - not working perfect)
+	Thunor: To achieve smoother scrolling is difficult because the
+	basic unit of the game is the size of the tiles (field_size)
+	and even if you reduce scroll_rate, show_game_area only draws in
+	tile units.
+[x] - Seperate the text from the code for easy internationalisation.
+	UPDATE: Did some research: GNU/Linux and C is good-to-go for
+	UTF-8 by default. The Polish alphabet is printed correctly by
+	TTF_RenderUTF8_Shaded() both from char arrays and text loaded
+	from a file with fgets().
+	So shall I store the text in text.c or read it in from
+	data/locale/en_GB/text and data/locale/pl/text etc. ?
+	English, German, Spanish and Polish would be a good start.
+	I've decided to read it from files because languages can be
+	added and text changed without recompilation. DONE: Arkadiusz
+	is doing the Polish translation. I've half done the German one
+	which assisted me in making sure all the text was removed from
+	the code and that there was enough space on-screen to write
+	something other than English, but from feedback I got from
+	Germans I'm not sure that it's really a necessary translation.
+	Anyway, I'll leave it in SVN and if a native German speaker
+	wants to finish it then I'll add it to the release.
+[x] - Add a language selection interface in Options.
+	English, German, Polish, Spanish :) (English and Polish first)
+[x] - Need to read in multiple lines for the skinrc [about].
+[x] - Add a skin selection interface in Options.
+[x] - Check the bear start directions on the newly converted packs.
+	Should be easy now with ./gnurobbo -800x600 -ts 16 -vpx :D
+	[x] - RobboIX
+	[x] - RobboVII
+	[x] - RobboVIII
+[x] - The project would benefit now from being reorganised into more
+	files. game.h needs to be seperated into other header files and
+	there's now a huge amount of old code marked "Redundant".
+[x] - Adjust the yellow colour tile as it's too bright for the GP2X.
+[x] - Allow the selection of any resolution via the command line
+	whereby the various parts of the program will relocate/resize to
+	accommodate them. The game will already easily do this, but the
+	intro/help/options I think may need x/yoffset anchor points.
+	UPDATE: Any resolution, 16 & 32 field size forcing, centred :)
+	Great for getting it running on widescreen devices. Also added
+	maximising of the viewport which is great for level designing.
+	Try "./gnurobbo -800x600 -ts 16 -vpx" :D Awesome! It's cheating
+	of course, that's why I'm not including it in Options.
+[x] - Add MECHANIC_SENSIBLE_BEARS and MECHANIC_SENSIBLE_QUESTIONMARKS
+	in Options or not? No, not Options, just add them to the rcfile so
+	that they can be modified if the user wishes. There may be more
+	of these as the project progresses.
+[x] - Store the various colours used in global variables which will be
+	read from the skinrc. DONE: Colours are read once at the start
+	and stored in the skins list.
+[x] - Create a dedicated teleport animation instead of using BIG_BOOM.
+[x] - Remove the SDL_Delay in the main loop and instead check a flag
+	that is cleared by an SDL timer function. Make the game speed
+	affect the main loop cycles which will likely mean that the
+	object delay defines will need adjusting.
+[x] - Add level background colour overrides to the skinrc files. Also
+	declare a default level colour and a default pack level colour.
+[x] - Reimplementing some functions for making them better and faster.
+	Thunor: I've reenginered quite a few functions and the only one
+	I haven't touched is update_game. I am familiar with writing
+	optimised SDL code and I can run this game on my GP2X at 90MHz
+	so I think this can be considered done.
+[x] - Port all available levels from Atari
+	Thunor: RobboVII to RobboIX are now complete.
+[x] - Speed should be configurable from 2 onwards, not 1: 2 to 8 incl.
+[x] - End screen (after completing the game)
+[x] - Demo mode :) 
+[x] - Too much structures (remove something...)
+	Thunor: Well I've removed board_copy and I don't see a problem
+	with anything else so I guess this qualifies as done :)
+[x] - Remove lives from maps and game
+[x] - Fine level changing with scrolling effect
+[x] - Reconfigurable controls in Options
+[x] - Add joystick dead zone to Options
+[x] - Save/restore controls to/from rc file
+[x] - Tidy-up RobboVIII levels 17 to 24
+[x] - Finish porting 8 levels from Robbo VIII
+[x] - Sort found level packs
+[x] - Show visual indication of Options save
+[x] - Scoreline ammo should be 3 digits
+[x] - Reposition the scoreline objects
+[x] - Implement joystick axes into actions
+[x] - Adding the joystick
+[x] - Start sequence (needs some moving, help, polishing etc..)
+[x] - game objects IDs and icons
+[x] - Teleportation
+[x] - Moving algorithms for birds
+[x] - Moving algorithms for bears (Thanks to Zbigniew Chyla)
+[x]	- Moving butterflies
+[x]	- Questionmark implementing (needs really random objects generation)
+[x]	- Solid laser
+[x] - Rotating guns
+[x] - Moving guns
+[x] - Gun shooting
+[x] - Merging all little icons into big one 
+[x] - Blasters
+[x] - Shooting birds
+[x] - Magnets' behaviour
+[x] - Score more similar to original game
+[x] - GameSaving or codes for planets
+[x] - Remember last done level in .gnurobborc file in user home dir
+[x] - Energetic barrier
+

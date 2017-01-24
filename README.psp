@@ -1,0 +1,32 @@
+Compilation
+===========
+
+In order to compile GNU Robbo for Sony PSP, please install psptoolchain 
+first. For further instructions please read COMPILING file.
+
+Installation
+============
+
+Copy "EBOOT.PBP" file and "data" directory to the destination directory
+(e.g. ms0:/psp/game/gnu_robbo/) on Memory Stick. 
+
+Default key mappings
+====================
+
+X             - confirm
+D-PAD         - move
+D-PAD + X     - shoot
+
+SELECT        - exit game and return to main screen
+START         - restart current level
+LEFT TRIGGER  - previous level
+RIGHT TRIGGER - next level
+
+Firmware version
+================
+
+Should work without problems for firmware versions 3.xx and above.
+
+Following is the desktop Linux README which you may find interesting.
+-----------------------------------------------------------------------
+

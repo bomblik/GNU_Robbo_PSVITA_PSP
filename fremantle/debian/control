@@ -1,0 +1,26 @@
+Source: gnurobbo
+Section: user/games
+Priority: extra
+Maintainer: Paul Houghton <huffton@googlemail.com>
+Build-Depends: debhelper (>= 5), libsdl1.2-dev (>= 1.2.13), libsdl-image1.2-dev (>= 1.2.4), libsdl-mixer1.2-dev (>= 1.2.6)
+Standards-Version: 3.7.2
+
+Package: gnurobbo
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}, suspendprocess
+Description: logic game ported from ATARI XE/XL
+ GNU Robbo is very addictive logic game. You must help a little robot to
+ get out of an unfriendly planet, collecting parts of an emergency capsule.
+ .
+ Originally written for Atari XE/XL by Janusz Pelc from "LK. Avalon".
+XB-Maemo-Icon-26:
+ iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/
+ AP+gvaeTAAAACXBIWXMAAAhMAAAITAHzz8NlAAAAB3RJTUUH2QEGACUa9H+4
+ tgAAAB10RVh0Q29tbWVudABDcmVhdGVkIHdpdGggVGhlIEdJTVDvZCVuAAAB
+ GklEQVRYw+1XwQ3CMAw8o7JHyyLNBqwAc/Dhw58RWIEBkMoiKJuYB0lRnLRJ
+ kVBdxP2aupF8vsulxGCUgEAMAAymkjqPXP0KM4NyDPSduzKidGeyrl+ncSZm
+ Z6Aqpsp30jMhZi0YWowGqrzqoxcvdOl1nugefQz0PvYdmvSQ60stvrRpMbh9
+ yKSZ0MOA7PzdoU3LO2cXhPvYziaZ0HMSRrP/Fkx4PujLAplmESKNOKXsbOia
+ DH5fA9yWmUVhFpjxWRejdb6/C/WzthuRDzDOXA2b/YuJdXMDABy2GwDA6foI
+ no/npsgdelwgGSCR917NnoGpkAyoS8N/FlRSlT6vhzJg8Kz/kLkFa0DMMpui
+ 0O6C4vtA4R/PYjTwBBBIgtcM6SeZAAAAAElFTkSuQmCC

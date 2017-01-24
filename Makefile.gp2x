@@ -1,0 +1,45 @@
+# You won't need to alter these
+TARGET=$(shell cat TARGET)
+SOURCES=$(wildcard *.c)
+OBJECTS=$(patsubst %.c, %.o, $(SOURCES))
+VERSION=$(shell cat VERSION)
+export PACKAGE_DATA_DIR=./data
+export TOOLCHAIN=gp2x
+
+# Comment out the line below if you want to disable music support
+#MUSIC=-DHAVE_MUSIC
+# Comment out the line below if you want to disable the designer
+#DESIGNER=-DHAVE_DESIGNER
+
+# Choose ONE of these and comment the other
+export FONT_USE_PIXMAP=-DUSE_PIXMAP_FONT
+#export FONT_USE_SDL_TTF=-lSDL_ttf
+
+# This uses the GPH GP2XSDK with a different installation directory (the GPH default is 
+# /gp2xsdk/Tools and mine is /opt/gp2xsdk) so you will need to modify at least DEVPREFIX below
+DEVPREFIX=/opt/gp2xsdk
+SDL_CONFIG=$(DEVPREFIX)/arm-gp2x-linux/bin/arm-linux-sdl-config
+CC=$(DEVPREFIX)/bin/arm-gp2x-linux-gcc
+CFLAGS=-O3 -pipe -Wall -fomit-frame-pointer \
+	-I$(DEVPREFIX)/arm-gp2x-linux/include `$(SDL_CONFIG) --prefix=$(DEVPREFIX) --cflags` \
+	-DPLATFORM_GP2X -DVERSION=\"$(VERSION)\" -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" \
+	$(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+LINK=$(CC)
+LDFLAGS=-L$(DEVPREFIX)/arm-gp2x-linux/lib 
+LIBS=`$(SDL_CONFIG) --prefix=$(DEVPREFIX) --libs` $(FONT_USE_SDL_TTF) -lSDL_image -lSDL_mixer
+
+# You won't need to alter anything below
+all: $(SOURCES) $(TARGET)
+
+$(TARGET): $(OBJECTS)
+	$(LINK) $(LDFLAGS) $(OBJECTS) $(LIBS) -o $@
+	gp2x/build-$(TARGET)
+
+%.o: %.c 
+	$(CC) $(CFLAGS) -c $< -o $@
+	
+.PHONY: all clean
+
+clean:
+	rm -f *.o
+

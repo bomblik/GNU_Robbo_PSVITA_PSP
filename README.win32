@@ -1,0 +1,24 @@
+Compilation
+==========================================
+To compile gnurobbo package you need to have Visual Studio 6 (or higher)
+and use special .dsw and .dsp files opened. They have to be copied to
+main directory. 
+
+You'll also need SDL, SDL_ttf, SDL_image and SDL_mixer development 
+libraries that can be downloaded from www.libsdl.org and copied to 
+main project directory.
+
+* SDL - http://www.libsdl.org
+* SDL_ttf - http://www.libsdl.org/projects/SDL_ttf/
+* SDL_image - http://www.libsdl.org/projects/SDL_image/
+* SDL_mixer http://www.libsdl.org/projects/SDL_mixer/
+
+Then in game.h you have to uncomment PLATFORM_WIN32 and PLATFORM_PC
+definitions.
+
+It should work now.
+
+Setup package creation
+===========================================
+You have to download inno setup from http://www.jrsoftware.org/isinfo.php
+Then open iss file (now in win32/ directory).

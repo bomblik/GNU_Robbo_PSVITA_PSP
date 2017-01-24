@@ -1,0 +1,31 @@
+This package was debianized by Paul Houghton <huffton@googlemail.com> on
+Mon, 24 May 2010 23:16:26 +0100.
+
+It was downloaded from http://gnurobbo.sourceforge.net/
+
+Upstream Authors:
+* Arkadiusz Lipiec <alipiec@arkadiusz.lipiec@gmail.com>
+* Thunor <thunorsif@hotmail.com>
+* neurocyp <neurocyp@gmail.com>
+* Bombel <bomblik@gmail.com>
+
+License:
+    Copyright © 2002-2010 The GNU Robbo Team
+
+    GNU Robbo is free software - you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2, or (at your option)
+    any later version.
+
+    GNU Robbo is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the impled warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+    GNU General Public License for more details.
+
+
+The Debian packaging is (C) 2010, Paul Houghton <huffton@googlemail.com> and
+is licensed under the GPL, see `/usr/share/common-licenses/GPL'.
+
+
+# Please also look if there are files or directories which have a
+# different copyright/license attached and list them here.

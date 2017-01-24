@@ -1,0 +1,51 @@
+Game help and default keys for this device are explained in-game.
+
+Pointer Support
+===============
+
+To enable playing GNU Robbo on devices with limited input facilities,
+the game can be controlled entirely by using a pointing device such as
+a stylus. By default the menu items throughout the game can be clicked,
+and to activate the in-game control pad and toolbar you should simply
+click anywhere on the screen. To shoot use either of these methods :-
+
+* Drag from Robbo to a direction to shoot once and remain in walk mode.
+* Click Robbo to toggle shoot mode on, press a direction to shoot one
+  or more bullets and then click Robbo again to toggle shoot mode off.
+
+
+Save Frequency < { On Exit | On Change } >
+==========================================
+
+In Options you can choose to save the rcfile .gnurobborc whenever
+important settings are changed. You may experience a slight delay
+whilst the data is being saved and synced (depending on platform,
+backup media type, CPU underclocking etc.) but if you are running GNU
+Robbo on a battery powered or generally unstable device then you won't
+lose your level progress or your modified settings.
+
+
+Video Mode Selection
+====================
+
+Depending on platform, video mode initialisation works thus :-
+
+* A user requested video mode via the commandline is attempted
+* If that fails then the default hi-res 640x480 mode is attempted
+* If that fails then the default lo-res 320x240 mode is attempted
+* If that fails then the program quits
+
+If you are using a device with a portrait orientated screen or you
+prefer this orientation then you should pass it via the commandline :-
+
+e.g. ./gnurobbo -600x800
+e.g. ./gnurobbo -480x640
+e.g. ./gnurobbo -240x320
+
+Additionally you can pass the -vpx option to expand the viewport to
+fill the screen vertically by 40%. See Command Line Options below.
+
+
+Following is the desktop Linux README which you may find interesting.
+-----------------------------------------------------------------------
+

@@ -1,0 +1,83 @@
+This file is designed for creating user readable summaries of the
+major changes from the ChangeLog since last release. The information
+gathered here is used for news announcements both within Sourceforge
+and across open-source game and project related websites.
+
+2015-08-25
+* 0.68 released
+* Smooth scrolling added
+* Lightning patterns - now fire produces light
+* imported a ton of new levels
+
+2010-11-12
+* 0.66 released
+* Significantly reduced the memory usage
+* Added localisation to the level designer
+* Added support for Maemo 5 Fremantle
+* Added preliminary support for Alex (a Robbo clone)
+* Added Czech translation by Radek Pavle
+* Fixed a few bugs and outstanding issues
+* Applied various graphical and usability tweaks
+
+2010-01-16
+* 0.65.6 released
+* Added a writeable MyLevels level pack for use with the designer
+* Added mouse wheel support for scrolling within the designer
+* Added Indonesian translation by Auriza Akbar
+* Fixed several bugs
+
+2009-12-23
+* 0.65 released
+* Added a level designer for platforms with pointer support
+* Added a new set of 12 demos using the latest level packs
+* Added the Russian alphabet to the pixmap fonts
+* Applied various graphical tweaks
+* Fixed several bugs
+
+2009-12-07
+* 0.64 released
+* Modified some objects to be more similar to Atari Robbo
+* Added 19 level packs
+* Added preliminary music support
+* Added sound and sound-skin support
+* Added support for tiled level background images
+* Added Oily graphical skin
+* Added support for Robbo Millenium objects
+* Added PlayStation PSP support
+* Added Russian translation by Alexander Voikov
+* Added an in-game pointer control pad and toolbar
+* Added extensive pointer support for menus and game
+
+2009-09-03
+* 0.63
+* Exclusive Nokia N8x0 (OS2008) package release by Willem-Jan de Hoog
+
+2009-03-18
+* 0.62 released
+* Created Sharp Zaurus Sharp ROM ipk
+* Added option to save rcfile on change for battery powered devices
+* Modified the exploding bomb to be more similar to Atari Robbo
+* Added pixmap fonts and the option to use them over SDL_ttf
+* Swedish translation added by Niklas 'Nille' Åkerström
+* Slovak translation added by Viliam Búr
+* German translation added by Chris Zeiler <rabyte_at_gmail.dot.com>
+
+2009-03-02
+* 0.61 released
+* Added graphical skin support
+* Added a newly created graphical skin: Tronic
+* 15 additional levels converted from RobboVII
+* 32 additional levels converted from RobboVIII
+* 32 additional levels converted from RobboIX
+* Added in-game help
+* Added reconfigurable options
+* Added reconfigurable controls
+* Added analogue and digital joystick support
+* Added centering of game within any resolution
+* Added support for different locales
+* Added a Polish translation
+* Many bug fixes
+
+2009-02-26
+* 0.60 test release
+
