@@ -9,7 +9,9 @@ FONT_USE_SDL_TTF=-lSDL_ttf
 # Comment out the line below if you want to disable music support
 MUSIC=-DHAVE_MUSIC
 # Comment out the line below if you want to disable the designer
-#DESIGNER=-DHAVE_DESIGNER
+DESIGNER=-DHAVE_DESIGNER
+LIGHTNING=-DLIGHTNINGENABLED=\"yes\"
+SMOOTH_SCRL=-D_SMOOTH_SCRL_=\"yes\"
 
 SOURCES=$(wildcard *.c)
 OBJS=$(patsubst %.c, %.o, $(SOURCES))
@@ -23,7 +25,11 @@ PSP_LARGE_MEMORY=1
 PSP_FW_VERSION=390
 BUILD_PRX=1
 
-CFLAGS = -O2 -G0 -Wall -DPLATFORM_PSP -DVERSION=\"$(VERSION)\" -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) $(DESIGNER)
+RELEASE_DIR=GNU_Robbo_$(VERSION)
+
+CFLAGS = -O2 -G0 -Wall -DPLATFORM_PSP -DVERSION=\"$(VERSION)\" -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" $(FONT_USE_PIXMAP) $(MUSIC) \
+         $(DESIGNER) -DSIMULATE_DESIGNER_CONTROLS_AS_BUTTONS $(LIGHTNING) $(SMOOTH_SCRL)
+
 CXXFLAGS = $(CFLAGS) -fno-exceptions -fno-rtti
 ASFLAGS = $(CFLAGS)
 
@@ -38,3 +44,12 @@ CXXFLAGS += $(shell $(PSPBIN)/sdl-config --cflags)
 LIBS += $(shell $(PSPBIN)/sdl-config --libs)
 
 include $(PSPSDK)/lib/build.mak
+
+release:
+	@rm -rf $(RELEASE_DIR)
+	@echo Creating release directory $(RELEASE_DIR)
+	@mkdir $(RELEASE_DIR)
+	@echo Copying files...
+	@cp -r data $(RELEASE_DIR)
+	@cp EBOOT.PBP $(RELEASE_DIR)
+	@echo Done

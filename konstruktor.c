@@ -925,7 +925,11 @@ konstruktor_click()
 		} else {
 		    sprintf(infostring,
 		    	txt_konstruktor_Reload_level_select_again_to_reload);
+		    #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 		    lastclick = 50;
+		    #else
+		    lastclick = 10;
+		    #endif
 		};
 		inforedraw = 1;
 		break;
@@ -1178,7 +1182,11 @@ konstruktor_click()
 		} else {
 		    sprintf(infostring,
 		    	txt_konstruktor_New_level_select_again_to_create);
+		    #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 		    lastclick = 50;
+		    #else
+		    lastclick = 10;
+		    #endif
 		}
 		inforedraw = 1;
 		break;
@@ -1208,7 +1216,11 @@ konstruktor_click()
 		} else {
 		    sprintf(infostring,
 		    	txt_konstruktor_Clear_level_select_again_to_clear);
+		    #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 		    lastclick = 50;
+		    #else
+		    lastclick = 10;
+		    #endif
 		}
 		inforedraw = 1;
 		break;
@@ -1225,7 +1237,11 @@ konstruktor_click()
 		    insert = 0;	/* since we saved the level, now we will
 				 * not try to insert another one */
 		} else {
+		    #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 		    lastclick = 50;
+		    #else
+		    lastclick = 10;
+		    #endif
 
 		    if (insert == 1)
 			sprintf(infostring,
@@ -1249,6 +1265,9 @@ konstruktor_click()
 		    k_view.x = 0;
 		    sprintf(infostring, "%s 16x31",
 		    	txt_konstruktor_Level_resized_to);
+		    #ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+		    rob_lyr_pointer->y = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 - rob_lyr_pointer->h;
+		    #endif
 		    konstruktor_viewport_init();
 		    break;
 		case 1:
@@ -1294,13 +1313,19 @@ konstruktor_click()
 		if (lastselected == cnt) {
 
 		    game_mode = GAME_ON;
+		    #if defined(PLATFORM_PSVITA)
+		    ROB_SetOpEnvPointer(FALSE, ROB_POINTER_MODE_OFF);
+		    #endif
 		    konstruktor_end();
 		    cnt = -1;
 		} else {
 		    sprintf(infostring,
 		    	txt_konstruktor_Exit_designer_select_again_to_exit);
-		    lastclick = 50;	/* very long click is used as
-					 * another click */
+		    #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+		    lastclick = 50;	/* very long click is used as another click */
+		    #else
+		    lastclick = 10;
+		    #endif
 		    inforedraw = 1;
 		};
 		break;
@@ -1790,7 +1815,31 @@ k_save_map()
     char            fname2[1024];
 
     sprintf(fname, "%s", level_packs[selected_pack].filename);
+
+#ifndef PLATFORM_PSVITA
     sprintf(fname2, "%s%s", level_packs[selected_pack].filename, ".tmp");
+#else
+    char            tmp[1024];
+    char            *str;
+    char            *filename;
+    char            dest_fname[1024];
+
+    sprintf(tmp, "%s", level_packs[selected_pack].filename);
+    str = strtok(tmp, "/");
+    while (str != NULL)
+    {
+      filename = str;
+      str = strtok (NULL, "/");
+    }
+
+    sprintf(dest_fname, "%s", CONFIG_DATA_DIR "/" LEVELS_DIR "/");
+    strcat(dest_fname, filename);
+
+    sprintf(fname2, "%s", CONFIG_DATA_DIR "/" LEVELS_DIR "/");
+    strcat(fname2, filename);
+    strcat(fname2, ".tmp");
+
+#endif
 
     fdescr = fopen(fname, "r");
     fdesc = fopen(fname2, "w+");
@@ -1852,11 +1901,24 @@ k_save_map()
     }
     fclose(fdesc);
     fclose(fdescr);
+
+#if defined(PLATFORM_PSVITA)
+    sceIoRemove(dest_fname);
+    sceIoRename(fname2, dest_fname);
+
+    strcpy(level_packs[selected_pack].filename, dest_fname);
+#elif defined(PLATFORM_PSP)
+    sceIoRemove(fname);
+    sceIoRename(fname2, fname);
+
+    strcpy(level_packs[selected_pack].filename, fname);
+#else
     /*
      * now all that is left to do is exchange the files 
      */
     unlink(fname);
     rename(fname2, fname);
+#endif
 }
 
 /*

@@ -29,6 +29,11 @@
   #define __func__ ""  /* unfortunatelly under vs6 is nothing like this macro ;( */
 #endif
 
+#ifdef PLATFORM_PSVITA
+#include <psp2shell.h>
+#include <psp2/kernel/processmgr.h>
+#endif
+
 //#define HAVE_DESIGNER
 
 
@@ -54,7 +59,9 @@
 
 #ifndef PLATFORM_WIN32
   #include <unistd.h>		/* For getpid() */
+  #ifndef PLATFORM_PSVITA
   #include <dirent.h>		/* For dir functions */
+  #endif
 #else
   #include "win32/dirent.h"		/* For dir functions windows has no such library */
 #endif
@@ -83,6 +90,14 @@
 #define DEBUG_COLOUR_SELECT
 */
 
+#ifdef PLATFORM_PSVITA
+#ifdef PSVITA_DEBUG
+#define printf(...) psp2shell_print(__VA_ARGS__)
+#endif
+
+#define SCREEN_WIDTH   960
+#define SCREEN_HEIGHT  544
+#endif
 
 #define TRUE 1
 #define FALSE 0

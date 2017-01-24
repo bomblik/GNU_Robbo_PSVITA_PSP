@@ -1,0 +1,31 @@
+Compilation
+===========
+
+In order to compile GNU_Robbo for PS VITA, please install vitasdk
+and set development environment.
+
+To compile project invoke
+
+    make -f Makefile.psvita
+
+Install vpk file according to instructions found on
+
+https://henkaku.xyz/usage
+
+Default key mappings
+====================
+
+    CROSS                    - confirm
+    CIRCLE                   - cancel / exit
+
+    D-PAD                    - move Robbo / move cursor in Designer
+    D-PAD + CROSS            - shoot
+
+    LEFT_JOYSTICK            - scroll level in Designer
+
+    TRIANGLE                 - modify current level in Designer (after starting a level)
+
+    START                    - restart level (in case Robbo is stuck)
+
+    RIGHT TRIGGER            - next level pack
+    LEFT TRIGGER             - previous level pack

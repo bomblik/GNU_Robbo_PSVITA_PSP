@@ -46,12 +46,21 @@ Další v menu Nastavení
 
 [txt_intro_keys_PLATFORM_PSP]
 Standardní ovládání:
-X
+  X
 D-Pad
-D-Pad + X 
+D-Pad + X
 Start
-Select
-Další v menu Nastavení
+  O
+_^_
+
+[txt_intro_keys_PLATFORM_PSVITA]
+Standardní ovládání:
+  X
+D-Pad
+D-Pad + X
+Start
+  O
+_^_
 
 [txt_intro_keys_description]
 
@@ -60,6 +69,7 @@ Pohyb
 Střelba
 Restart
 Konec
+Designer
 
 [txt_intro_menu]
 Start
@@ -75,7 +85,7 @@ z
 
 [txt_intro_credits]
 ATARI Game: 1989 Janusz Pelc, LK AVALON
-Linux Game: 2002-2010 The GNU Robbo Team
+Linux Game: 2002-2017 The GNU Robbo Team
 http://gnurobbo.sourceforge.net/
 
 # ---------------------------------------------------------------------

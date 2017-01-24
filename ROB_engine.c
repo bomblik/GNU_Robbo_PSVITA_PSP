@@ -1257,6 +1257,10 @@ void ROB_GenerateEvents(int *actionid) {
 void ROB_ManagePointerInput(int pxu, int pyu) {
 	static int lastpxu = 0, lastpyu = 0, unitcount = 0;
 	int xmov, ymov;
+	#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	extern txt_x;
+	extern txt_y;
+	#endif
 	
 	/* Is the x or y unit the same as last time? */
 	if ((pxu != 0 && pxu == lastpxu) || (pyu != 0 && pyu == lastpyu)) {
@@ -1288,9 +1292,28 @@ void ROB_ManagePointerInput(int pxu, int pyu) {
 	}
 	if (rob_lyr_pointer->y < 0) {
 		rob_lyr_pointer->y = 0;
+	#ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 	} else if (rob_lyr_pointer->y > screen->h - 1) {
 		rob_lyr_pointer->y = screen->h - 1;
 	}
+	#else
+	} else if (level.w < 32) {
+		if (rob_lyr_pointer->y > (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 - rob_lyr_pointer->h) {
+			rob_lyr_pointer->y = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 - rob_lyr_pointer->h;
+		}
+	} else {
+        int offset = 0;
+        if (rob_lyr_pointer->x < (txt_x) * video.field_size + k_view.offsetx + video.field_size / 8)
+            offset = 1;
+
+        if (rob_lyr_pointer->y > (txt_y + offset) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 - rob_lyr_pointer->h) {
+            rob_lyr_pointer->y = (txt_y + offset) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 - rob_lyr_pointer->h;
+        }
+	}
+
+	kmx = rob_lyr_pointer->x;
+	kmy = rob_lyr_pointer->y;
+	#endif
 
 }
 

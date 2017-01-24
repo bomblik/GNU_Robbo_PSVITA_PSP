@@ -1844,6 +1844,10 @@ clear_screen (void)
 {
   SDL_Rect destrect;
   SDL_Color colour;
+#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+  extern txt_x;
+  extern txt_y;
+#endif
 
   colour.r = skins[selected_skin].background_colour >> 16 & 0xff;
   colour.g = skins[selected_skin].background_colour >> 8 & 0xff;
@@ -1923,9 +1927,53 @@ clear_screen (void)
       colour.g = 0x80;
       colour.b = 0;
 #endif
+
+#ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
       SDL_FillRect (screen, NULL,
 		    SDL_MapRGB (screen->format, colour.r, colour.g,
 				colour.b));
+#else
+      if (game_mode != DESIGNER_ON)
+      {
+        SDL_FillRect (screen, NULL,
+		      SDL_MapRGB (screen->format, colour.r, colour.g,
+		          colour.b));
+      }
+      else
+      {
+        // game area
+        destrect.x = 0;
+        destrect.y = 0;
+        destrect.w = screen->w;
+        destrect.h = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2;
+        SDL_FillRect(screen, &destrect, SDL_MapRGB(screen->format,
+          colour.r, colour.g, colour.b));
+
+        // left-hand side of infostring
+        destrect.x = 0;
+        destrect.y = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2;
+        destrect.w = (txt_x) * video.field_size + k_view.offsetx + video.field_size / 8;
+        destrect.h = 24;
+        SDL_FillRect(screen, &destrect, SDL_MapRGB(screen->format,
+          colour.r, colour.g, colour.b));
+
+        // right-hand side of infostring
+        destrect.x = screen->w * 2 / 3 + 32;
+        destrect.y = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2;
+        destrect.w = screen->w;
+        destrect.h = 24;
+        SDL_FillRect(screen, &destrect, SDL_MapRGB(screen->format,
+          colour.r, colour.g, colour.b));
+
+        // below infostring
+        destrect.x = 0;
+        destrect.y = (txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 + 24;
+        destrect.w = screen->w;
+        destrect.h = screen->h - ((txt_y) * video.field_size + k_view.offsety + (video.field_size - 24) / 2 + 24);
+        SDL_FillRect(screen, &destrect, SDL_MapRGB(screen->format,
+          colour.r, colour.g, colour.b));
+      }
+#endif
       break;
     }
 }
@@ -1950,6 +1998,14 @@ clear_screen (void)
 int
 set_video_mode (void)
 {
+#ifdef PLATFORM_PSVITA
+  screen = SDL_SetVideoMode (SCREEN_WIDTH, SCREEN_HEIGHT, 32, SDL_SWSURFACE | SDL_ANYFORMAT);
+  if (screen == NULL)
+  {
+      printf ("SDL_SetVideoMode error\n");
+      return(1);
+  }
+#else
   SDL_Rect **modes;
   int hwsurface[3], count, flags;
 #ifdef DEBUG_VIDEO
@@ -2183,6 +2239,7 @@ set_video_mode (void)
   printf ("*** Stop %s ***\n", __func__);
 #endif
 
+#endif
   return 0;
 }
 
@@ -3770,7 +3827,9 @@ void show_optionsscreen (void)
 			options[OPTIONS_SKIN + count] = FALSE;
 		}
 		#ifndef PLATFORM_PSP
+		#ifndef PLATFORM_PSVITA
 			if (joystick_count == 0)
+		#endif
 		#endif
 		{
 			options[OPTIONS_DEFAULT_JOYSTICK] = FALSE;
@@ -3792,6 +3851,8 @@ void show_optionsscreen (void)
 			options[OPTIONS_ACTION_TOGGLE_FULLSCREEN] = FALSE;
 		#elif defined(PLATFORM_PSP)
 			options[OPTIONS_ACTION_TOGGLE_FULLSCREEN] = FALSE;
+		#elif defined(PLATFORM_PSVITA)
+			options[OPTIONS_ACTION_TOGGLE_FULLSCREEN] = FALSE;
 		#endif
 
 		/* Disable pointer options on platforms that don't support the mouse */
@@ -3808,6 +3869,12 @@ void show_optionsscreen (void)
 			#endif
 		#elif defined(PLATFORM_ZAURUS)
 		#elif defined(PLATFORM_PSP)
+			options[OPTIONS_ACTION_SCROLL_UP] = FALSE;
+			options[OPTIONS_ACTION_SCROLL_DOWN] = FALSE;
+			options[OPTIONS_ACTION_PRIMARY_CLICK] = FALSE;
+			options[OPTIONS_SYSTEM_POINTER] = FALSE;
+			options[OPTIONS_POINTER_CONTROLS_PAD_TYPE] = FALSE;
+		#elif defined(PLATFORM_PSVITA)
 			options[OPTIONS_ACTION_SCROLL_UP] = FALSE;
 			options[OPTIONS_ACTION_SCROLL_DOWN] = FALSE;
 			options[OPTIONS_ACTION_PRIMARY_CLICK] = FALSE;

@@ -36,8 +36,6 @@
 
 #define JOYSTICK_DEAD_ZONE 50
 
-#define USER_CONTROLS 37
-
 /* User actions. These are used as an index into user_controls */
 #define ACTION_UP 0	
 #define ACTION_UP_RIGHT 1
@@ -79,7 +77,15 @@
 #define ACTION_SCROLL_DOWN 34
 #define ACTION_PRIMARY_CLICK 35
 
+#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+#define ACTION_SCROLL_LEFT 36
+#define ACTION_SCROLL_RIGHT 37
+#define ACTION_NOT_USED1 38		/* Restore Default Controls */
+#else
 #define ACTION_NOT_USED1 36		/* Restore Default Controls */
+#endif
+
+#define USER_CONTROLS (ACTION_NOT_USED1 + 1)
 
 #define ACTION_SHOOT_REPEAT_DELAY_PERIOD (game_cycle_limit / 2)
 

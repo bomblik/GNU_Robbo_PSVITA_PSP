@@ -2215,6 +2215,7 @@ move_robbo (int x, int y)
 		      system ("sync");
 #elif defined(PLATFORM_ZAURUS)
 #elif defined(PLATFORM_PSP)
+#elif defined(PLATFORM_PSVITA)
 #endif
 		    }
 		}

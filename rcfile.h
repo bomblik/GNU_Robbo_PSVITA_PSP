@@ -31,6 +31,8 @@
 	#define RESOURCE_FILE "gnurobborc"
 #elif defined(PLATFORM_PSP)
 	#define RESOURCE_FILE ".gnurobborc"
+#elif defined(PLATFORM_PSVITA)
+	#define RESOURCE_FILE "gnurobborc"
 #endif
 
 #define RCFILE_SAVE_ON_EXIT 0

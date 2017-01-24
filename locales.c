@@ -20,6 +20,10 @@
 
 #include "game.h"
 
+#ifdef PLATFORM_PSVITA
+#include "psp2/io/dirent.h"
+#endif
+
 /* Defines */
 /*
 #define DEBUG_LOAD_SELECTED_LOCALE
@@ -48,6 +52,59 @@ extern char *data_state[];
 int
 find_all_locales (void)
 {
+#ifdef PLATFORM_PSVITA
+  FILE *fp;
+  char filename[256];
+  int dir;
+  int default_locale_found = FALSE;
+  SceIoDirent entry;
+
+  if ((dir = sceIoDopen(PACKAGE_DATA_DIR "/" LOCALES_DIR)) == 0)
+  {
+    printf ("Couldn't open locales folder: %s\n",
+           PACKAGE_DATA_DIR "/" LOCALES_DIR);
+    return 1;
+  }
+
+  while (sceIoDread(dir, &entry) > 0)
+  {
+    if ((strcmp (entry.d_name, "."))
+     && (strcmp (entry.d_name, "..")))
+    {
+      if (locale_count < MAX_LOCALES)
+      {
+        /* Attempt to open currentdirent->d_name/localerc to verify it's a valid locale folder  */
+        strcpy (filename, PACKAGE_DATA_DIR "/" LOCALES_DIR "/");
+        strcat (filename, entry.d_name);
+        strcat (filename, "/");
+        strcat (filename, LOCALERC_FILE);
+        if ((fp = fopen (filename, "r")) != NULL)
+        {
+          if (!strcmp (entry.d_name, DEFAULT_LOCALE))
+          {
+            default_locale_found = TRUE;
+          }
+          else
+          {
+            strncpy (locales[locale_count].foldername,
+                     entry.d_name, 100);
+            locales[locale_count].foldername[99] = 0; /* Just in case we read all chars */
+            locale_count++;
+          }
+          fclose (fp);
+        }
+      }
+    }
+  }
+  sceIoDclose(dir);
+
+  if (!default_locale_found)
+  {
+    fprintf (stdout, "Cannot find the default locale: %s\n",
+             PACKAGE_DATA_DIR "/" LOCALES_DIR "/" DEFAULT_LOCALE);
+    return 1;
+  }
+#else
   FILE *fp;
   char filename[256];
   DIR *dir;
@@ -102,6 +159,7 @@ find_all_locales (void)
       return 1;
     }
   else
+#endif
     {
       return 0;
     }
@@ -340,6 +398,10 @@ void load_selected_locale (void)
 		config_items[row].max_rows = TXT_INTRO_KEYS_ROWS;
 	#elif defined(PLATFORM_PSP)
 		strcpy (config_items[++row].name, "[txt_intro_keys_PLATFORM_PSP]");
+		config_items[row].destination = txt_intro_keys;
+		config_items[row].max_rows = TXT_INTRO_KEYS_ROWS;
+	#elif defined(PLATFORM_PSVITA)
+		strcpy (config_items[++row].name, "[txt_intro_keys_PLATFORM_PSVITA]");
 		config_items[row].destination = txt_intro_keys;
 		config_items[row].max_rows = TXT_INTRO_KEYS_ROWS;
 	#endif

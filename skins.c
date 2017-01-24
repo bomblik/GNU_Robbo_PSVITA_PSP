@@ -20,6 +20,10 @@
 
 #include "game.h"
 
+#ifdef PLATFORM_PSVITA
+#include "psp2/io/dirent.h"
+#endif
+
 /* Defines */
 /*
 #define DEBUG_READ_SKIN_LEVEL_COLOUR_OVERRIDE
@@ -73,6 +77,62 @@ void read_skin_project_colours (void);
 int
 find_all_skins (void)
 {
+#ifdef PLATFORM_PSVITA
+  FILE *fp;
+  char filename[256];
+  int dir;
+  int default_skin_found = FALSE;
+  SceIoDirent entry;
+
+  /* Open the skins directory */
+  if ((dir = sceIoDopen (PACKAGE_DATA_DIR "/" SKINS_DIR)) <= 0)
+    {
+      fprintf (stdout, "Couldn't open skins folder: %s\n",
+	       PACKAGE_DATA_DIR "/" SKINS_DIR);
+      return 1;
+    }
+
+  /* Now search the directory for skin folders */
+  while (sceIoDread(dir, &entry) > 0)
+    {
+      if ((strcmp (entry.d_name, "."))
+	  && (strcmp (entry.d_name, "..")))
+	{
+	  if (skin_count < MAX_SKINS)
+	    {
+	      /* Attempt to open entry.d_name/skinrc to verify it's a valid skin folder  */
+	      strcpy (filename, PACKAGE_DATA_DIR "/" SKINS_DIR "/");
+	      strcat (filename, entry.d_name);
+	      strcat (filename, "/");
+	      strcat (filename, SKINRC_FILE);
+	      if ((fp = fopen (filename, "r")) != NULL)
+		{
+                    if (!strcmp (entry.d_name, DEFAULT_SKIN))
+		    {
+		      default_skin_found = TRUE;
+		    }
+		  else
+		    {
+		      strncpy (skins[skin_count].foldername,
+			       entry.d_name, 100);
+		      skins[skin_count].foldername[99] = 0;	/* Just in case we read all chars */
+		      skin_count++;
+		    }
+		  fclose (fp);
+		}
+	    }
+	}
+    }
+  sceIoDclose(dir);
+
+  if (!default_skin_found)
+    {
+      fprintf (stdout, "Cannot find the default skin: %s\n",
+	       PACKAGE_DATA_DIR "/" SKINS_DIR "/" DEFAULT_SKIN);
+      return 1;
+    }
+  else
+#else
   FILE *fp;
   char filename[256];
   DIR *dir;
@@ -131,6 +191,7 @@ find_all_skins (void)
       return 1;
     }
   else
+#endif
     {
       return 0;
     }
@@ -990,7 +1051,12 @@ load_selected_skin (void)
 #ifndef PLATFORM_ZAURUS                                     
 		if (count == 0 || count == 4 || count == 5 ||count==6) 
 		{
+#ifndef PLATFORM_PSVITA
 			if ((unconverted = IMG_Load (filename)) == NULL)
+#else
+			SDL_RWops *rwop = SDL_RWFromFile(filename, "rb");
+			if ((unconverted = IMG_LoadPNG_RW(rwop)) == NULL)
+#endif
 			{
 				fprintf (stdout, "Cannot load PNG image %s\n", filename);
 				if (count == 0 || count == 5) exit (1);
@@ -1206,7 +1272,12 @@ create_skin_preview (void)
 	}
 	
 #ifndef PLATFORM_ZAURUS
-	if ((unconverted = IMG_Load (filename)) != NULL)
+#ifndef PLATFORM_PSVITA
+        if ((unconverted = IMG_Load (filename)) != NULL)
+#else
+	SDL_RWops *rwop = SDL_RWFromFile(filename, "rb");
+	if ((unconverted = IMG_LoadPNG_RW(rwop)) != NULL)
+#endif
 	{
 		/* Set the transparent colour */
 		converted = SDL_DisplayFormatAlpha (unconverted);

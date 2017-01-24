@@ -1,0 +1,67 @@
+PACKAGE_DATA_DIR=app0:/data
+CONFIG_DATA_DIR=ux0:/data/gnurobbo
+
+SOURCES=$(wildcard *.c)
+OBJS=$(patsubst %.c, %.o, $(SOURCES))
+
+CC=arm-vita-eabi-gcc
+CXX=arm-vita-eabi-g++
+STRIP=arm-vita-eabi-strip
+
+VERSION=$(shell cat VERSION)
+RELEASE_DIR=gnurobbo_$(VERSION)
+
+TARGET=gnurobbo
+TITLE_ID=ROBB00001
+
+LIGHTNING=-DLIGHTNINGENABLED=\"yes\"
+SMOOTH_SCRL=-D_SMOOTH_SCRL_=\"yes\"
+
+#-DPSVITA_DEBUG
+CFLAGS=-O2 -Wall -g -DPLATFORM_PSVITA -DVERSION=\"$(VERSION)\"                             \
+       -DPACKAGE_DATA_DIR=\"$(PACKAGE_DATA_DIR)\" -DCONFIG_DATA_DIR=\"$(CONFIG_DATA_DIR)\" \
+       -DUSE_PIXMAP_FONT -DHAVE_DESIGNER -DSIMULATE_DESIGNER_CONTROLS_AS_BUTTONS           \
+       $(SMOOTH_SCRL) $(LIGHTNING) -DPLATFORM_PSVITA_GEKIHEN_CONTEST_SPLASH_SCREEN         \
+       -I$(VITASDK)/arm-vita-eabi/include
+
+CXXFLAGS=$(CFLAGS) -fno-exceptions -fno-rtti
+ASFLAGS=$(CFLAGS)
+LDFLAGS=
+LIBDIR=
+
+LIBS = -lSDL_ttf -lfreetype -lSDL -lSDL_mixer -lvorbis -lvorbisfile -logg -lSDL_image -lvita2d            \
+       -lpng -ljpeg -lz -lm -lc -lpsp2shell -lpthread -lSceDisplay_stub -lSceGxm_stub -lSceSysmodule_stub \
+       -lSceCtrl_stub -lScePgf_stub -lSceNetCtl_stub -lSceNet_stub -lScePower_stub -lSceCommonDialog_stub \
+       -lSceAppUtil_stub -lSceAudio_stub -lSceAppMgr_stub
+
+all: $(TARGET).vpk
+#all: eboot.bin
+
+%.vpk: eboot.bin
+	@vita-mksfoex -s TITLE_ID=$(TITLE_ID) "$(TARGET)" param.sfo
+	@rm -rf $(RELEASE_DIR)
+	@mkdir -p $(RELEASE_DIR)/sce_sys/livearea/contents
+	@cp psvita/sce_sys/icon0.png $(RELEASE_DIR)/sce_sys/
+	@cp psvita/sce_sys/livearea/contents/bg.png $(RELEASE_DIR)/sce_sys/livearea/contents/
+	@cp psvita/sce_sys/livearea/contents/startup.png $(RELEASE_DIR)/sce_sys/livearea/contents/
+	@cp psvita/sce_sys/livearea/contents/template.xml $(RELEASE_DIR)/sce_sys/livearea/contents/
+	@cp param.sfo $(RELEASE_DIR)/sce_sys/
+	@cp eboot.bin $(RELEASE_DIR)
+	@cp -r data $(RELEASE_DIR)
+	@cp psvita/gekihen-splash.png $(RELEASE_DIR)/data
+	@cd $(RELEASE_DIR) && zip -r ../$(RELEASE_DIR).vpk . && cd ..
+	@echo
+	@echo File $(RELEASE_DIR).vpk" created"
+
+eboot.bin: $(TARGET).velf
+	vita-make-fself $< eboot.bin
+
+%.velf: %.elf
+#	$(PREFIX)-strip -g $<
+	vita-elf-create $< $@
+
+$(TARGET).elf: $(OBJS)
+	$(CC) -Wl,-q $(CFLAGS) $^ $(LIBS) -o $@
+
+clean:
+	@rm -rf $(TARGET).velf $(TARGET).elf $(TARGET).vpk $(RELEASE_DIR).vpk $(RELEASE_DIR) $(OBJS) param.sfo eboot.bin

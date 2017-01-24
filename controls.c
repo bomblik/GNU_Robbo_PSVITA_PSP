@@ -80,6 +80,35 @@
 #define PSP_START 11
 #define PSP_HOME 12
 #define PSP_HOLD 13
+#define PSP_JOYSTICK_LEFT 14
+#define PSP_JOYSTICK_RIGHT 15
+#define PSP_JOYSTICK_UP 16
+#define PSP_JOYSTICK_DOWN 17
+#define PSP_VIRTUAL_MODIFIER 1000
+
+/* PSVITA button IDs */
+#define PSVITA_TRIANGLE 0
+#define PSVITA_CIRCLE 1
+#define PSVITA_CROSS 2
+#define PSVITA_SQUARE 3
+#define PSVITA_LEFT_TRIGGER 4
+#define PSVITA_RIGHT_TRIGGER 5
+#define PSVITA_DOWN 6
+#define PSVITA_LEFT 7
+#define PSVITA_UP 8
+#define PSVITA_RIGHT 9
+#define PSVITA_SELECT 10
+#define PSVITA_START 11
+#define PSVITA_HOME 12
+#define PSVITA_LEFT_JOYSTICK_LEFT 13
+#define PSVITA_LEFT_JOYSTICK_RIGHT 14
+#define PSVITA_LEFT_JOYSTICK_UP 15
+#define PSVITA_LEFT_JOYSTICK_DOWN 16
+#define PSVITA_RIGHT_JOYSTICK_LEFT 17
+#define PSVITA_RIGHT_JOYSTICK_RIGHT 18
+#define PSVITA_RIGHT_JOYSTICK_UP 19
+#define PSVITA_RIGHT_JOYSTICK_DOWN 20
+#define PSVITA_VIRTUAL_MODIFIER 1000
 
 /* Variables */
 SDL_Event event;
@@ -186,10 +215,31 @@ int get_user_action (int *actionid, int pollall, int *device, int *id, int *stat
 				*state = event.key.state;
 				break;
 			case SDL_JOYBUTTONUP:
+				#if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+				#if defined(PLATFORM_PSVITA) || defined(PLATFORM_PSP)
+				lastclick=0;
+				#endif
+				#endif
 			case SDL_JOYBUTTONDOWN:
 				*device = DEVICE_JOYSTICK;
 				*id = event.jbutton.button;
 				*state = event.jbutton.state;
+
+				#if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+				#if defined(PLATFORM_PSVITA)
+				if ((event.jbutton.button == PSVITA_CROSS) && (game_mode == DESIGNER_ON))
+				{
+					*id = user_controls[ACTION_PRIMARY_CLICK].id;
+				}
+				#endif
+
+				#if defined(PLATFORM_PSP)
+				if ((event.jbutton.button == PSP_CROSS) && (game_mode == DESIGNER_ON))
+				{
+					*id = user_controls[ACTION_PRIMARY_CLICK].id;
+				}
+				#endif
+				#endif
 				break;
 			case SDL_MOUSEBUTTONUP:
 				lastclick=0;	/* Added by neurocyp for the designer */
@@ -573,6 +623,8 @@ void set_default_user_controls (struct control user_controls[USER_CONTROLS])
 			user_controls[count].device = DEVICE_KEYBOARD;
 		#elif defined(PLATFORM_PSP)
 			user_controls[count].device = DEVICE_JOYSTICK;
+		#elif defined(PLATFORM_PSVITA)
+			user_controls[count].device = DEVICE_JOYSTICK;
 		#endif
 		user_controls[count].id = UNDEFINED;
 		user_controls[count].mod = UNDEFINED;
@@ -799,28 +851,77 @@ void set_default_user_controls (struct control user_controls[USER_CONTROLS])
 		user_controls[ACTION_SHOOT_RIGHT].id = PSP_RIGHT;
 		user_controls[ACTION_SHOOT_RIGHT].mod = ACTION_MODIFIER1;
 		user_controls[ACTION_SELECT].id = PSP_CROSS;
-		user_controls[ACTION_EXIT].id = PSP_SELECT;
+		user_controls[ACTION_EXIT].id = PSP_CIRCLE;
 		user_controls[ACTION_HELP].device = UNDEFINED;
 		user_controls[ACTION_OPTIONS].device = UNDEFINED;
 		user_controls[ACTION_TOGGLE_FULLSCREEN].device = UNDEFINED;
-		user_controls[ACTION_PREVIOUS_LEVEL].id = PSP_LEFT_TRIGGER;
-		user_controls[ACTION_NEXT_LEVEL].id = PSP_RIGHT_TRIGGER;
-		user_controls[ACTION_PREVIOUS_PACK].device = UNDEFINED;
-		user_controls[ACTION_NEXT_PACK].device = UNDEFINED;
+		user_controls[ACTION_PREVIOUS_LEVEL].device = UNDEFINED;
+		user_controls[ACTION_NEXT_LEVEL].device = UNDEFINED;
+		user_controls[ACTION_PREVIOUS_PACK].id = PSP_LEFT_TRIGGER;
+		user_controls[ACTION_NEXT_PACK].id = PSP_RIGHT_TRIGGER;
 		user_controls[ACTION_HOME].device = UNDEFINED;
 		user_controls[ACTION_END].device = UNDEFINED;
 		user_controls[ACTION_PAGEUP].device = UNDEFINED;
 		user_controls[ACTION_PAGEDOWN].device = UNDEFINED;
-		user_controls[ACTION_TOGGLE_DESIGNER].device = UNDEFINED;
+		user_controls[ACTION_TOGGLE_DESIGNER].id = PSP_TRIANGLE;
 		user_controls[ACTION_VOLUP].device = UNDEFINED;
 		user_controls[ACTION_VOLDOWN].device = UNDEFINED;
 		user_controls[ACTION_MODIFIER1].id = PSP_CROSS;
 		user_controls[ACTION_MODIFIER2].device = UNDEFINED;
 		user_controls[ACTION_MODIFIER3].device = UNDEFINED;
 		user_controls[ACTION_MODIFIER4].device = UNDEFINED;
-		user_controls[ACTION_SCROLL_UP].device = UNDEFINED;
-		user_controls[ACTION_SCROLL_DOWN].device = UNDEFINED;
-		user_controls[ACTION_PRIMARY_CLICK].device = UNDEFINED;
+		user_controls[ACTION_SCROLL_UP].id = PSP_JOYSTICK_UP;
+		user_controls[ACTION_SCROLL_DOWN].id = PSP_JOYSTICK_DOWN;
+		user_controls[ACTION_PRIMARY_CLICK].id = PSP_VIRTUAL_MODIFIER;
+		#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+		user_controls[ACTION_SCROLL_LEFT].id = PSP_JOYSTICK_LEFT;
+		user_controls[ACTION_SCROLL_RIGHT].id = PSP_JOYSTICK_RIGHT;
+		#endif
+		user_controls[ACTION_NOT_USED1].device = UNDEFINED;
+	#elif defined(PLATFORM_PSVITA)
+		user_controls[ACTION_UP].id = PSVITA_UP;
+		user_controls[ACTION_UP_RIGHT].device = UNDEFINED;
+		user_controls[ACTION_RIGHT].id = PSVITA_RIGHT;
+		user_controls[ACTION_DOWN_RIGHT].device = UNDEFINED;
+		user_controls[ACTION_DOWN].id = PSVITA_DOWN;
+		user_controls[ACTION_DOWN_LEFT].device = UNDEFINED;
+		user_controls[ACTION_LEFT].id = PSVITA_LEFT;
+		user_controls[ACTION_UP_LEFT].device = UNDEFINED;
+		user_controls[ACTION_RESTART].id = PSVITA_START;
+		user_controls[ACTION_SHOOT_UP].id = PSVITA_UP;
+		user_controls[ACTION_SHOOT_UP].mod = ACTION_MODIFIER1;
+		user_controls[ACTION_SHOOT_DOWN].id = PSVITA_DOWN;
+		user_controls[ACTION_SHOOT_DOWN].mod = ACTION_MODIFIER1;
+		user_controls[ACTION_SHOOT_LEFT].id = PSVITA_LEFT;
+		user_controls[ACTION_SHOOT_LEFT].mod = ACTION_MODIFIER1;
+		user_controls[ACTION_SHOOT_RIGHT].id = PSVITA_RIGHT;
+		user_controls[ACTION_SHOOT_RIGHT].mod = ACTION_MODIFIER1;
+		user_controls[ACTION_SELECT].id = PSVITA_CROSS;
+		user_controls[ACTION_EXIT].id = PSVITA_CIRCLE;
+		user_controls[ACTION_HELP].device = UNDEFINED;
+		user_controls[ACTION_OPTIONS].device = UNDEFINED;
+		user_controls[ACTION_PREVIOUS_LEVEL].device = UNDEFINED;
+		user_controls[ACTION_NEXT_LEVEL].device = UNDEFINED;
+		user_controls[ACTION_PREVIOUS_PACK].id = PSVITA_LEFT_TRIGGER;;
+		user_controls[ACTION_NEXT_PACK].id = PSVITA_RIGHT_TRIGGER;
+		user_controls[ACTION_HOME].device = UNDEFINED;
+		user_controls[ACTION_END].device = UNDEFINED;
+		user_controls[ACTION_PAGEUP].device = UNDEFINED;
+		user_controls[ACTION_PAGEDOWN].device = UNDEFINED;
+		user_controls[ACTION_TOGGLE_DESIGNER].id = PSVITA_TRIANGLE;
+		user_controls[ACTION_VOLUP].device = UNDEFINED;
+		user_controls[ACTION_VOLDOWN].device = UNDEFINED;
+		user_controls[ACTION_MODIFIER1].id = PSVITA_CROSS;
+		user_controls[ACTION_MODIFIER2].device = PSVITA_SQUARE;
+		user_controls[ACTION_MODIFIER3].device = UNDEFINED;
+		user_controls[ACTION_MODIFIER4].device = UNDEFINED;
+		user_controls[ACTION_SCROLL_UP].id = PSVITA_LEFT_JOYSTICK_UP;
+		user_controls[ACTION_SCROLL_DOWN].id = PSVITA_LEFT_JOYSTICK_DOWN;
+		user_controls[ACTION_PRIMARY_CLICK].id = PSVITA_VIRTUAL_MODIFIER;
+		#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+		user_controls[ACTION_SCROLL_LEFT].id = PSVITA_LEFT_JOYSTICK_LEFT;
+		user_controls[ACTION_SCROLL_RIGHT].id = PSVITA_LEFT_JOYSTICK_RIGHT;
+		#endif
 		user_controls[ACTION_NOT_USED1].device = UNDEFINED;
 	#endif
 }
@@ -885,6 +986,9 @@ int initialise_joystick (int joyid, char *joyname, int show)
 			if (joystick)
 			{
 		#elif defined(PLATFORM_PSP)
+			if (joystick)
+			{
+		#elif defined(PLATFORM_PSVITA)
 			if (joystick)
 			{
 		#endif

@@ -127,6 +127,12 @@ main (int argc, char *argv[])
   MSG_Box temp_msg_box;
   time_t t;
 
+#ifdef PLATFORM_PSVITA
+  SDL_Surface *image;
+  SDL_RWops *rwop;
+  SDL_Rect offset;
+#endif
+
 #ifdef DEBUG_MAIN
   printf ("*** Start %s ***\n", __func__);
   printf ("size of int: %i\n", sizeof (int));
@@ -150,6 +156,13 @@ main (int argc, char *argv[])
 #ifdef PLATFORM_PSP
   /* Set up PSP exit and power callbacks */
   setup_callbacks ();
+#endif
+
+#ifdef PLATFORM_PSVITA
+  #ifdef PSVITA_DEBUG
+    psp2shell_init(3333, 0);
+    sceKernelDelayThread(2*1000000);
+  #endif
 #endif
 
   /* Set some defaults */
@@ -190,9 +203,18 @@ main (int argc, char *argv[])
   gnurobbo_op_env.systempointer = FALSE;
 #elif defined(PLATFORM_PSP)
   gnurobbo_op_env.systempointer = FALSE;
+#elif defined(PLATFORM_PSVITA)
+  gnurobbo_op_env.systempointer = FALSE;
 #endif
   gnurobbo_op_env.pointer = FALSE;
+
+#if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+  gnurobbo_op_env.systempointer = FALSE;
+  gnurobbo_op_env.pointer_mode = ROB_POINTER_MODE_OFF;
+#else
   gnurobbo_op_env.pointer_mode = ROB_POINTER_MODE_PHYSICAL;
+#endif
+
   gnurobbo_op_env.pointer_move_unit_low = UNDEFINED;
   gnurobbo_op_env.pointer_move_unit_high = UNDEFINED;
   gnurobbo_op_env.pointer_move_unit_threshold = UNDEFINED;
@@ -222,6 +244,7 @@ main (int argc, char *argv[])
   /* Set-up the default user controls */
   set_default_user_controls (user_controls);
 
+#ifndef PLATFORM_PSVITA
   /* Process any command line arguments. These will override any found in any resource file. */
   if (argc > 1)
     {
@@ -290,6 +313,17 @@ main (int argc, char *argv[])
 	  return 1;
 	}
     }
+#else
+  video.fullscreen = TRUE;
+  video.xres = SCREEN_WIDTH;
+  video.yres = SCREEN_HEIGHT;
+  video.field_size = 32;
+  viewport.maximise = TRUE;
+
+  sceIoMkdir(CONFIG_DATA_DIR, 0777);
+  sceIoMkdir(CONFIG_DATA_DIR "/" LEVELS_DIR, 0777);
+#endif
+
 #ifdef DEBUG_MAIN
   printf ("*** Start %s ***\n", __func__);
   printf ("video.fullscreen=%i\n", video.fullscreen);
@@ -367,6 +401,8 @@ main (int argc, char *argv[])
 		strcat (path_resource_file, "/MyDocs/.gnurobbo/");
 	#elif defined(PLATFORM_PSP)
 		strcpy (path_resource_file, "./");
+	#elif defined(PLATFORM_PSVITA)
+		strcpy (path_resource_file, CONFIG_DATA_DIR "/" );
 	#endif
 	strcat (path_resource_file, RESOURCE_FILE);
 	printf ("RESOURCE_FILE is %s\n", path_resource_file);
@@ -449,7 +485,11 @@ main (int argc, char *argv[])
   sort_locales ();
 
   /* Initialise SDL */
+#ifndef PLATFORM_PSVITA
   if (SDL_Init (SDL_INIT_EVERYTHING))
+#else
+  if (SDL_Init (SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_JOYSTICK))
+#endif
     {
       fprintf (stdout, "Cannot initialise SDL: %s", SDL_GetError ());
       return 1;
@@ -475,6 +515,7 @@ main (int argc, char *argv[])
 #elif defined(PLATFORM_GP2X)  || defined(PLATFORM_CAANOO)
 #elif defined(PLATFORM_ZAURUS)
 #elif defined(PLATFORM_PSP)
+#elif defined(PLATFORM_PSVITA)
 #endif
 
   /* Set the video mode */
@@ -483,6 +524,26 @@ main (int argc, char *argv[])
       fprintf (stdout, "Cannot initialise screen: %s\n", SDL_GetError ());
       exit (1);
     }
+
+#if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+  SDL_ShowCursor(SDL_DISABLE);
+#endif
+
+#if defined(PLATFORM_PSVITA) && defined(PLATFORM_PSVITA_GEKIHEN_CONTEST_SPLASH_SCREEN)
+  rwop=SDL_RWFromFile(PACKAGE_DATA_DIR "/gekihen-splash.png", "rb");
+  image=IMG_LoadPNG_RW(rwop);
+  if(!image)
+  {
+    printf("Error loading gekihen splash screen\n");
+  }
+
+  offset.x = 0;
+  offset.y = 0;
+
+  SDL_BlitSurface( image, NULL, screen, &offset );
+  SDL_FreeSurface (image);
+  SDL_Flip (screen);
+#endif
 
   /* Initiate a 10ms timer */
   game_timer_id = SDL_AddTimer (10, game_timer, NULL);
@@ -539,6 +600,9 @@ main (int argc, char *argv[])
 	    {
 			if(K_exit==TRUE) {
 			    konstruktor_end ();
+				#if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+				ROB_SetOpEnvPointer(FALSE, ROB_POINTER_MODE_OFF);
+				#endif
 				game_mode = GAME_ON;
 				K_exit=FALSE;
 			} 
@@ -570,6 +634,9 @@ main (int argc, char *argv[])
 		  /* Cancel any active or pending fades */
 		  restart_timeout = -1;
 		  show_game_area_fade (FADE_SUB_KILL, 0);
+		  #if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+		  ROB_SetOpEnvPointer(TRUE, ROB_POINTER_MODE_SIMULATED);
+		  #endif
 		  konstruktor_init ();
 		}
 	      break;
@@ -581,6 +648,9 @@ main (int argc, char *argv[])
 		  /* Cancel any active or pending fades */
 		  restart_timeout = -1;
 		  show_game_area_fade (FADE_SUB_KILL, 0);
+		  #if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+		  ROB_SetOpEnvPointer(TRUE, ROB_POINTER_MODE_SIMULATED);
+		  #endif
 		  konstruktor_init ();
 		}
 	      break;
@@ -593,6 +663,9 @@ main (int argc, char *argv[])
 		  /* Cancel any active or pending fades */
 		  restart_timeout = -1;
 		  show_game_area_fade (FADE_SUB_KILL, 0);
+		  #if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+		  ROB_SetOpEnvPointer(TRUE, ROB_POINTER_MODE_SIMULATED);
+		  #endif
 		  konstruktor_init ();
 		}
 	      break;
@@ -605,6 +678,9 @@ main (int argc, char *argv[])
 		  /* Cancel any active or pending fades */
 		  restart_timeout = -1;
 		  show_game_area_fade (FADE_SUB_KILL, 0);
+		  #if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+		  ROB_SetOpEnvPointer(TRUE, ROB_POINTER_MODE_SIMULATED);
+		  #endif
 		  konstruktor_init ();
 		}
 	      break;
@@ -612,23 +688,45 @@ main (int argc, char *argv[])
 	      konstruktor_click ();
 	      break;
 	    case ACTION_SCROLL_UP:
-	      for (count = 0; count < 4; count++) konstruktor_scroll (0);
-	      break;
-	    case ACTION_UP:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	      for (count = 0; count < 4; count++)
+	      #endif
 	      konstruktor_scroll (0);
 	      break;
-	    case ACTION_SCROLL_DOWN:
-	      for (count = 0; count < 4; count++) konstruktor_scroll (2);
+	    case ACTION_UP:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	      konstruktor_scroll (0);
+	      #endif
 	      break;
-	    case ACTION_DOWN:
+	    case ACTION_SCROLL_DOWN:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	      for (count = 0; count < 4; count++)
+	      #endif
 	      konstruktor_scroll (2);
 	      break;
+	    case ACTION_DOWN:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	      konstruktor_scroll (2);
+	      #endif
+	      break;
 	    case ACTION_LEFT:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 	      konstruktor_scroll (1);
+	      #endif
 	      break;
 	    case ACTION_RIGHT:
+	      #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
 	      konstruktor_scroll (3);
+	      #endif
 	      break;
+#ifdef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+        case ACTION_SCROLL_LEFT:
+          konstruktor_scroll (1);
+          break;
+        case ACTION_SCROLL_RIGHT:
+          konstruktor_scroll (3);
+          break;
+#endif
 /*	    case ACTION_EXIT:
 	      konstruktor_end ();
 	      game_mode = GAME_ON;
@@ -1518,7 +1616,11 @@ main (int argc, char *argv[])
 	{
 	 /* animate konstruktor stuff */
 	 konstruktor_animate ();
-	game_area.redraw |= REDRAW_ANIMATED;
+	 #ifndef SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS
+	 game_area.redraw |= REDRAW_ANIMATED;
+	 #else
+	 game_area.redraw |= REDRAW_EVERYTHING;
+	 #endif
 	 konstruktor_show_game_area ();
 
 	}	
@@ -1623,6 +1725,9 @@ clean_up_before_exit (void)
 #elif defined(PLATFORM_PSP)
   if (joystick)
     SDL_JoystickClose (joystick);
+#elif defined(PLATFORM_PSVITA)
+  if (joystick)
+    SDL_JoystickClose (joystick);
 #endif
 
   /* Shutdown the GNU Robbo Rectangular Object Engine */
@@ -1652,6 +1757,10 @@ clean_up_before_exit (void)
 
   TTF_Quit ();
   SDL_Quit ();
+
+  #if defined(PLATFORM_PSVITA)
+  sceKernelExitProcess(0);
+  #endif
 }
 
 /***************************************************************************
@@ -1962,6 +2071,9 @@ manage_game_on_input (int actionid)
     case ACTION_TOGGLE_DESIGNER:
       /* ok, we will have to initialize designer mode */
       game_mode = DESIGNER_ON;
+      #if defined(SIMULATE_DESIGNER_CONTROLS_AS_BUTTONS)
+      ROB_SetOpEnvPointer(TRUE, ROB_POINTER_MODE_SIMULATED);
+      #endif
       konstruktor_init ();
       break;
     }
@@ -2197,6 +2309,7 @@ manage_options_select (int optionid)
 	      system ("sync");
 #elif defined(PLATFORM_ZAURUS)
 #elif defined(PLATFORM_PSP)
+#elif defined(PLATFORM_PSVITA)
 #endif
 	    }
 	  /* Some of the above will require the entire page to be redrawn so always redraw everything on save */

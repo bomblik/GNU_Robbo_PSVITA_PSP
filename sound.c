@@ -353,6 +353,9 @@ play_music(void)
 void
 make_playlist(void)
 {
+#ifdef PLATFORM_PSVITA
+    return;
+#else
     DIR            *dir = NULL;
     struct dirent  *dentry;
     char            musicpath[1024];
@@ -379,6 +382,7 @@ make_playlist(void)
 	}
     }
     closedir(dir);
+#endif
 }
 #endif
 

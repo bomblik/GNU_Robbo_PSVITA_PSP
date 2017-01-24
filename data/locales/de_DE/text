@@ -46,12 +46,21 @@ Rückschrit
 
 [txt_intro_keys_PLATFORM_PSP]
 Standardkontrollen:
-X
+  X
 D-Pad
-D-Pad + X 
+D-Pad + X
 Start
-Select
-"Optionen" für alle
+  O
+_^_
+
+[txt_intro_keys_PLATFORM_PSVITA]
+Standardkontrollen:
+  X
+D-Pad
+D-Pad + X
+Start
+  O
+_^_
 
 [txt_intro_keys_description]
 
@@ -60,6 +69,7 @@ Bewegen
 Schießen
 Neustart
 Beenden
+Designer
 
 [txt_intro_menu]
 Start
@@ -75,7 +85,7 @@ von
 
 [txt_intro_credits]
 ATARI-Port: 1989 Janusz Pelc, LK AVALON
-Linux-Port: 2002-2010 The GNU Robbo Team
+Linux-Port: 2002-2017 The GNU Robbo Team
 http://gnurobbo.sourceforge.net
 
 # ---------------------------------------------------------------------

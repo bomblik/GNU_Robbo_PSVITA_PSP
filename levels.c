@@ -20,6 +20,10 @@
 
 #include "game.h"
 
+#ifdef PLATFORM_PSVITA
+#include "psp2/io/dirent.h"
+#endif
+
 /* Defines */
 /*
 #define DEBUG_LOAD_LEVEL_DATA
@@ -206,6 +210,8 @@ void create_userpack (void)
 		strcat (fullpath, "/" LOCAL_DATA_DIR "/" LEVELS_DIR "/" DEFAULT_USER_LEVEL_PACK);
 	#elif defined(PLATFORM_GP2X) || defined(PLATFORM_PSP)  || defined(PLATFORM_CAANOO)
 		strcpy (fullpath, PACKAGE_DATA_DIR "/" LEVELS_DIR "/" DEFAULT_USER_LEVEL_PACK);
+	#elif defined(PLATFORM_PSVITA)
+		strcpy (fullpath, CONFIG_DATA_DIR "/" LEVELS_DIR "/" DEFAULT_USER_LEVEL_PACK);
 	#endif
 	
 	if (fullpath[0] != 0)
@@ -226,6 +232,7 @@ void create_userpack (void)
 				mkdir (foldername, 0755);
 			#elif defined(PLATFORM_GP2X)  || defined(PLATFORM_CAANOO)
 			#elif defined(PLATFORM_PSP)
+			#elif defined(PLATFORM_PSVITA)
 			#endif
 
 			/* Create and populate the DEFAULT_USER_LEVEL_PACK */
@@ -301,6 +308,110 @@ void create_userpack (void)
 int
 find_all_dat_files (void)
 {
+#ifdef PLATFORM_PSVITA
+    int dir;
+    int default_dat_found = FALSE;
+    char foldername[256];
+    int count;
+    int i;
+    char tmp[256];
+    char *str;
+    char *filename;
+    int add_pack = TRUE;
+    SceIoDirent entry;
+
+    for (count = 0; count < 2; count++)
+    {
+      /* precedence of modified CONFIG_DATA_DIR level packs over PACKAGE_DATA_DIR level packs */
+      if (count == 0)
+      {
+        strcpy (foldername, CONFIG_DATA_DIR "/" LEVELS_DIR);
+      }
+      else if (count == 1)
+      {
+        strcpy (foldername, PACKAGE_DATA_DIR "/" LEVELS_DIR);
+      }
+
+      if ((dir = sceIoDopen(foldername)) > 0)
+      {
+        while (sceIoDread(dir, &entry) > 0)
+        {
+          if (strstr (entry.d_name, ".dat") != NULL)
+          {
+            printf("---- count = %d, %s\n", count, entry.d_name);
+
+            if (level_pack_count < MAX_LEVEL_PACKS)
+            {
+              if (strcmp (entry.d_name, DEFAULT_LEVEL_PACK) == 0)
+              {
+                default_dat_found = TRUE;
+              }
+
+              add_pack = TRUE;
+              if (count == 0)
+              {
+                if (strcmp (entry.d_name, DEFAULT_LEVEL_PACK) == 0)
+                {
+                  strcpy (level_packs[0].filename, foldername);
+                  strcat (level_packs[0].filename, "/");
+                  strcat (level_packs[0].filename, DEFAULT_LEVEL_PACK);
+
+                  add_pack = FALSE;
+                }
+              }
+
+              if (count == 1)
+              {
+                for (i = 0 ; i < level_pack_count - 1 ; i++)
+                {
+                  sprintf (tmp, "%s", level_packs[i].filename);
+                  str = strtok(tmp, "/");
+                  while (str != NULL)
+                  {
+                    filename = str;
+                    str = strtok (NULL, "/");
+                  }
+
+                  if (strcmp (entry.d_name, filename) == 0)
+                  {
+                    add_pack = FALSE;
+                    printf("@@@ pack %s already included\n", filename);
+                  }
+                }
+              }
+
+              if (add_pack)
+              {
+                strcpy (level_packs[level_pack_count].filename, foldername);
+                strcat (level_packs[level_pack_count].filename, "/");
+                strcat (level_packs[level_pack_count].filename, entry.d_name);
+                level_pack_count++;
+                found_pack_count++;
+              }
+            }
+          }
+        }
+        sceIoDclose(dir);
+      }
+      else
+      {
+        printf ("Couldn't open levels folder: %s\n", foldername);
+      }
+    }
+
+    printf ("find_all_dat_files:\n");
+    for (i = 0 ; i < level_pack_count - 1 ; i++)
+    {
+      printf ("level_packs[%d].filename = %s", i, level_packs[i].filename);
+    }
+
+    if (!default_dat_found)
+    {
+        printf ("Cannot find the default level file: %s\n",
+            PACKAGE_DATA_DIR "/" LEVELS_DIR "/" DEFAULT_LEVEL_PACK);
+        return 1;
+    }
+#else
 	DIR *dir;
 	struct dirent *currentdirent;
 	int default_dat_found = FALSE;
@@ -380,7 +491,7 @@ find_all_dat_files (void)
 			PACKAGE_DATA_DIR "/" LEVELS_DIR "/" DEFAULT_LEVEL_PACK);
 		return 1;
 	}
-
+#endif
 	return 0;
 }
 

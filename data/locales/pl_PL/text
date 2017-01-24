@@ -46,12 +46,21 @@ Opcje - inne klawisze
 
 [txt_intro_keys_PLATFORM_PSP]
 Sterowanie:
-X
+  X
 D-Pad
 D-Pad + X
 Start
-Select
-Opcje - inne klawisze
+  O
+_^_
+
+[txt_intro_keys_PLATFORM_PSVITA]
+Sterowanie:
+  X
+D-Pad
+D-Pad + X
+Start
+  O
+_^_
 
 [txt_intro_keys_description]
 
@@ -60,6 +69,7 @@ Ruch
 Strzał
 Restart
 Wyjście
+Designer
 
 [txt_intro_menu]
 Start
@@ -75,7 +85,7 @@ z
 
 [txt_intro_credits]
 ATARI: 1989 Janusz Pelc, LK AVALON
-Linux: 2002-2010 The GNU Robbo Team
+Linux: 2002-2017 The GNU Robbo Team
 http://gnurobbo.sourceforge.net/
 
 # ---------------------------------------------------------------------
