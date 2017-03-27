@@ -1,4 +1,4 @@
-#GNU Robbo for Playstation Vita and Playstation Portable
+# GNU Robbo for Playstation Vita and Playstation Portable
 
 This is a new port of GNU Robbo action puzzle video game for Sony Playstation Vita and a major upgrade of existing port of GNU Robbo (version 0.66) for Sony Playstation Portable.
 
@@ -12,7 +12,7 @@ For more information on game history please read README file.
 
 This port is based on GNU Robbo release 0.68.
 
-##Game screenshots
+## Game screenshots
 
 Screenshots of various levels and built-in level editor
 
@@ -35,20 +35,20 @@ Screenshots of various levels and built-in level editor
 </figure>
 </p>
 
-##New features (PS VITA and PSP)
+## New features (PS VITA and PSP)
 *  PS VITA support
 *  game built-in level editor (PS VITA and PSP)
 *  39 new level packs
 *  graphical improvements (smooth board scrolling, explosion lightning effects)
 
-##Unique game features
+## Unique game features
 *  graphical skin support (customization of graphical elements)
 *  sound skin support (customization of sound sets)
 *  customizable in-game controls
 *  support for locales: English, Czech, German, Indonesian, Polish, Russian, Slovak and Swedish
 *  in-game help
 
-##Game built-in level editor (GNU Robbo Designer)
+## Game built-in level editor (GNU Robbo Designer)
 
 If you have mastered the game or would like to express your creative skills, you can become a designer and use level editor to create new or modify existing challenges and immediately test your ideas in the game. If you want to share new level packs, contact the Authors. Every level creator is credited with his/her name during a level game play.
 
@@ -60,26 +60,26 @@ If you want to start designing a level from scratch, MyLevels pack is a good sta
 
 For details of using level editor please read "Level Designer" section of README file.
 
-##Binary installation
+## Binary installation
 
-###Playstation Vita
+### Playstation Vita
 https://github.com/bomblik/GNU_Robbo_PSVITA_PSP/releases/tag/GNU_Robbo_0.68_PSVITA
 
 Install vpk file according to instructions found on
 
 https://henkaku.xyz/usage
 
-###Playstation Portable
+### Playstation Portable
 https://github.com/bomblik/GNU_Robbo_PSVITA_PSP/releases/tag/GNU_Robbo_0.68_PSP
 
 Copy release directory to Sony PSP device
 (e.g. to ms0:/psp/game directory on Memory Stick).
 
-##Source installation
+## Source installation
 
-###Compilation
+### Compilation
 
-####Playstation Vita
+#### Playstation Vita
 In order to compile GNU_Robbo for PS VITA, please install vitasdk
 and set development environment.
 
@@ -87,7 +87,7 @@ To compile project invoke
 
     make -f Makefile.psvita
 
-####Playstation Portable
+#### Playstation Portable
 In order to compile GNU_Robbo for PSP, please install psptoolchain
 and set development environment.
 
@@ -99,11 +99,11 @@ To prepare data for installation invoke
 
     make -f Makefile.psp release
 
-###Installation
+### Installation
 
 Follow instructions from Binary installation section
 
-##Default key mappings
+## Default key mappings
 
     CROSS                    - confirm
     CIRCLE                   - cancel / exit
@@ -120,7 +120,7 @@ Follow instructions from Binary installation section
     RIGHT TRIGGER            - next level pack
     LEFT TRIGGER             - previous level pack
 
-##Credits
+## Credits
 
 The GNU Robbo Team for a great game.
 <br>
@@ -132,7 +132,7 @@ xerpi for SDL library port.
 <br>
 Cpasjuste for ports of SDL auxiliary libraries and PSP2SHELL.
 
-##Tips
+## Tips
 
 If you want to shorten scrolling time after restarting level, move Robbo with D-PAD button.
 
